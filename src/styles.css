@@ -1,3 +1,125 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* src/styles.css */
+
+/* ---- Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/* ---- Light theme (default) ---- */
+:root {
+  /* backgrounds / surfaces */
+  --bg: #EBF0F1;
+  --surface: #FFFFFF;
+  --surface2: #F5F8F9;
+  --sunken: #E7EDEF;
+
+  /* borders */
+  --border: #E2E8EB;
+  --border2: #CBD6DA;
+
+  /* arctic teal */
+  --teal: #1C3444;
+  --tealHover: #26465E;
+  --tealSoft: #E9EFF2;
+  --tealInk: #0F2330;
+  --onSoft: #1C3444;
+  --chartBar: #27506B;
+
+  /* copper accent */
+  --copper: #B87333;
+  --copperHover: #A2632A;
+  --copperSoft: #F8EFE3;
+
+  /* text */
+  --text: #16242E;
+  --muted: #5A6B73;
+  --faint: #869099;
+
+  /* status colors */
+  --green: #2E7D5B;  --greenSoft: #E5F1EB;
+  --amber: #B7822E;  --amberSoft: #F6EEDD;
+  --red:   #B24A3F;  --redSoft:   #F5E8E5;
+
+  /* AI-tinted panels */
+  --ai: #FBF4EC;
+  --aiBorder: #ECDBC6;
+
+  /* misc */
+  --ring: rgba(184, 115, 51, .32);
+  --shadow: 0 1px 2px rgba(20, 40, 55, .05), 0 6px 22px rgba(20, 40, 55, .06);
+
+  /* fonts */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* more */
+  --white: #FFFFFF;
+
+}
+
+/* ---- Dark theme ---- */
+[data-theme="dark"] {
+  --bg: #0A1219;
+  --surface: #101E27;
+  --surface2: #15242E;
+  --sunken: #0E1B23;
+
+  --border: #1F2F3A;
+  --border2: #2B3F4D;
+
+  --teal: #0E1820;
+  --tealHover: #16242E;
+  --tealSoft: #16242E;
+  --tealInk: #0A1219;
+  --onSoft: #A7C4D8;
+  --chartBar: #3E5E78;
+
+  --copper: #D4904A;
+  --copperHover: #E0A263;
+  --copperSoft: #231B11;
+
+  --text: #E7EEF2;
+  --muted: #92A3AD;
+  --faint: #5F717B;
+
+  --green: #46A483;  --greenSoft: #13241E;
+  --amber: #D2A24E;  --amberSoft: #241D11;
+  --red:   #D06A5E;  --redSoft:   #281714;
+
+  --ai: #1E1A12;
+  --aiBorder: #3A2D1C;
+
+  --ring: rgba(212, 144, 74, .4);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 26px rgba(0, 0, 0, .4);
+
+  
+  --white: #FFFFFF;
+}
+
+/* ---- Base / reset ---- */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background .2s ease, color .2s ease;
+}
+
+input, button, textarea, select { font: inherit; }
+button { cursor: pointer; }
+::placeholder { color: var(--faint); }
+
+/* ---- Keyframes (used by skeletons, toasts, typing dots, charts) ---- */
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes blink   { 0%,100% { opacity:.25 } 50% { opacity:1 } }
+@keyframes typedot { 0%,60%,100% { transform:translateY(0); opacity:.4 } 30% { transform:translateY(-5px); opacity:1 } }
+@keyframes pulseSk { 0%,100% { opacity:1 } 50% { opacity:.45 } }
+@keyframes fadeUp  { from { opacity:0; transform:translateY(10px) } to { opacity:1; transform:none } }
+@keyframes toastIn { from { opacity:0; transform:translateY(12px) scale(.98) } to { opacity:1; transform:none } }
+@keyframes growBar { from { transform:scaleY(0) } to { transform:scaleY(1) } }
+
 @import 'tailwindcss';

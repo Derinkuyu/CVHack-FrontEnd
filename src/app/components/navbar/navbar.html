@@ -1,0 +1,49 @@
+<nav class="px-6 py-3 flex items-center gap-6 border-b"
+     style="background: var(--teal); border-color: var(--border); box-shadow: var(--shadow);">
+
+  <!-- Logo -->
+  <app-logo></app-logo>
+
+  <!-- Search Bar -->
+  <div class="flex items-center rounded-xl px-4 py-2 gap-2 flex-1 max-w-md border"
+       style="background: var(--surface2); border-color: var(--border2);">
+    <app-magnifying-glass-icon></app-magnifying-glass-icon>
+    <input
+      type="text"
+      placeholder="Search roles, companies, locations..."
+      class="bg-transparent text-sm outline-none w-full"
+      style="color: var(--text);"
+    />
+  </div>
+
+  <!-- Nav Links -->
+  <div class="flex items-center gap-6 ml-auto text-sm font-medium" style="font-family: var(--font-body);">
+    <a href="/jobs"
+       class="nav-link no-underline font-bold"
+       style="color: var(--faint);">Jobs</a>
+    <a href="/profile"
+       class="nav-link no-underline font-bold"
+       style="color: var(--faint);">Profile</a>
+    <a href="/support"
+       class="nav-link no-underline font-bold"
+       style="color: var(--faint);">Support</a>
+    <a href="/admin"
+       class="nav-link no-underline font-bold"
+       style="color: var(--faint);">Admin</a>
+  </div>
+
+  <!-- Divider -->
+  <div class="w-px h-6" style="background: var(--border2);"></div>
+
+  <!-- Theme Toggle -->
+  <app-theme-toggle></app-theme-toggle>
+
+  <!-- User Avatar -->
+  <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold cursor-pointer"
+       style="background: var(--copper); color: var(--text); font-family: var(--font-display);">
+    <a href="/profile">
+      YH
+    </a>
+  </div>
+
+</nav>
