@@ -1,0 +1,31 @@
+<div class="flex flex-col gap-4 px-4 py-1">
+  <div class="flex items-center justify-between ">
+    <!-- Left: Title + subtitle -->
+    <div>
+      <h2 class="text-xl font-bold" style="color: var(--text); font-family: var(--font-display)">
+        Recommended jobs
+      </h2>
+      <p class="text-sm mt-0.5" style="color: var(--copper)">
+        {{ jobs.length }} roles
+        <span style="color: var(--muted)">· sorted by {{ selectedSort }}</span>
+      </p>
+    </div>
+
+    <!-- Right: Sort dropdown -->
+    <select
+      [(ngModel)]="selectedSort"
+      class="text-sm px-4 py-2 rounded-xl border outline-none cursor-pointer"
+      style="background: var(--surface); border-color: var(--border2); color: var(--text)"
+    >
+      @for (opt of sortOptions; track opt) {
+        <option [value]="opt">{{ opt }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- show job cards -->
+
+  @for (job of jobs; track job.id) {
+    <app-job-card [job]="job" />
+  }
+</div>
