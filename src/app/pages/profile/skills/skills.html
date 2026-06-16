@@ -1,0 +1,23 @@
+<div class="skills-card">
+  <h3 class="skills-card__title">Skills</h3>
+
+  <div class="skills-card__tags">
+    <span class="skill-tag" *ngFor="let skill of skills">
+      {{ skill }}
+      <button class="skill-tag__remove" (click)="removeSkill(skill)">×</button>
+    </span>
+  </div>
+
+  <div class="skills-card__add">
+    <input
+      type="text"
+      class="skills-card__input"
+      placeholder="Add a skill..."
+      [(ngModel)]="newSkill"
+      (keyup.enter)="addSkill()"
+    />
+    <button class="skills-card__add-btn" (click)="addSkill()">
+      + Add
+    </button>
+  </div>
+</div>

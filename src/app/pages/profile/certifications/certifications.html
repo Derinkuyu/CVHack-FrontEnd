@@ -1,0 +1,23 @@
+<div class="cert-card">
+  <div class="cert-card__header">
+    <h3 class="cert-card__title">Certifications</h3>
+    <button class="cert-card__add-btn" (click)="addCertification()">
+      + Add
+    </button>
+  </div>
+
+  <div class="cert-card__list">
+    <div class="cert-item" *ngFor="let item of certificationsList; let i = index">
+      <div class="cert-item__icon">🏆</div>
+
+      <div class="cert-item__info">
+        <h4 class="cert-item__name">{{ item.name }}</h4>
+        <p class="cert-item__meta">{{ item.issuer }} · {{ item.year }}</p>
+      </div>
+
+      <button class="cert-item__delete" (click)="removeCertification(i)">
+        🗑
+      </button>
+    </div>
+  </div>
+</div>

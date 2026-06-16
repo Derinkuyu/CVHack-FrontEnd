@@ -1,0 +1,26 @@
+<div class="experience-card">
+  <div class="experience-card__header">
+    <h3 class="experience-card__title">Experience</h3>
+    <button class="experience-card__add-btn" (click)="addExperience()">
+      + Add
+    </button>
+  </div>
+
+  <div class="experience-card__list">
+    <div class="experience-item" *ngFor="let item of experienceList; let i = index">
+      <div class="experience-item__icon">💼</div>
+
+      <div class="experience-item__info">
+        <h4 class="experience-item__title">{{ item.title }}</h4>
+        <p class="experience-item__meta">
+          {{ item.company }} · {{ item.startDate }} — {{ item.endDate }}
+        </p>
+        <p class="experience-item__description">{{ item.description }}</p>
+      </div>
+
+      <button class="experience-item__delete" (click)="removeExperience(i)">
+        🗑
+      </button>
+    </div>
+  </div>
+</div>

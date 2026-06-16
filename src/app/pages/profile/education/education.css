@@ -1,0 +1,106 @@
+.education-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  font-family: var(--font-body);
+}
+
+.education-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.education-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.education-card__add-btn {
+  background-color: var(--copperSoft);
+  color: var(--copper);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.education-card__add-btn:hover {
+  background-color: var(--copperSoft);
+  opacity: 0.85;
+}
+
+.education-card__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.education-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.education-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.education-item__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--copperSoft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.education-item__info {
+  flex: 1;
+}
+
+.education-item__degree {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 2px;
+}
+
+.education-item__meta {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.education-item__delete {
+  background-color: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.education-item__delete:hover {
+  background-color: var(--redSoft);
+  color: var(--red);
+}

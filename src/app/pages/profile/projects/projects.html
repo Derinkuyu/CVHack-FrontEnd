@@ -1,0 +1,25 @@
+<div class="projects-card">
+  <div class="projects-card__header">
+    <h3 class="projects-card__title">Projects</h3>
+    <button class="projects-card__add-btn" (click)="addProject()">
+      + Add
+    </button>
+  </div>
+
+  <div class="projects-card__list">
+    <div class="project-item" *ngFor="let item of projectsList; let i = index">
+      <div class="project-item__header">
+        <h4 class="project-item__name">{{ item.name }}</h4>
+        <button class="project-item__delete" (click)="removeProject(i)">
+          🗑
+        </button>
+      </div>
+
+      <p class="project-item__description">{{ item.description }}</p>
+
+      <div class="project-item__tags">
+        <span class="project-tag" *ngFor="let tag of item.tags">{{ tag }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="education-card">
+  <div class="education-card__header">
+    <h3 class="education-card__title">Education</h3>
+    <button class="education-card__add-btn" (click)="addEducation()">
+      + Add
+    </button>
+  </div>
+
+  <div class="education-card__list">
+    <div class="education-item" *ngFor="let item of educationList; let i = index">
+      <div class="education-item__icon">🎓</div>
+
+      <div class="education-item__info">
+        <h4 class="education-item__degree">{{ item.degree }}</h4>
+        <p class="education-item__meta">
+          {{ item.institution }} · {{ item.startYear }} — {{ item.endYear }}
+        </p>
+      </div>
+
+      <button class="education-item__delete" (click)="removeEducation(i)">
+        🗑
+      </button>
+    </div>
+  </div>
+</div>

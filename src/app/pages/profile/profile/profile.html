@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+
+<div class="profile-page">
+  <app-profile-header
+    [fullName]="fullName"
+    [jobTitle]="jobTitle"
+    [location]="location"
+    [initials]="initials"
+  ></app-profile-header>
+
+  <app-profile-tabs
+    [activeTab]="activeTab"
+    (tabChange)="onTabChange($event)"
+  ></app-profile-tabs>
+
+  <app-personal-info
+    *ngIf="activeTab === 'personal-info'"
+    [fullName]="fullName"
+    [email]="email"
+    [phone]="phone"
+    [location]="location"
+  ></app-personal-info>
+
+  <app-skills *ngIf="activeTab === 'skills'"></app-skills>
+  <app-experience *ngIf="activeTab === 'experience'"></app-experience>
+  <app-education *ngIf="activeTab === 'education'"></app-education>
+  <app-certifications *ngIf="activeTab === 'certifications'"></app-certifications>
+  <app-projects *ngIf="activeTab === 'projects'"></app-projects>
+</div>

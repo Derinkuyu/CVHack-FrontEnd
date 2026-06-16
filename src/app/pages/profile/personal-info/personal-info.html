@@ -1,0 +1,30 @@
+<div class="info-card">
+  <div class="info-card__header">
+    <h3 class="info-card__title">Personal Information</h3>
+    <button class="info-card__edit-btn" (click)="onEdit()">
+      ✏ Edit
+    </button>
+  </div>
+
+  <div class="info-card__grid">
+    <div class="info-card__field">
+      <span class="info-card__label">Full Name</span>
+      <span class="info-card__value">{{ fullName }}</span>
+    </div>
+
+    <div class="info-card__field">
+      <span class="info-card__label">Email</span>
+      <span class="info-card__value">{{ email }}</span>
+    </div>
+
+    <div class="info-card__field">
+      <span class="info-card__label">Phone</span>
+      <span class="info-card__value">{{ phone }}</span>
+    </div>
+
+    <div class="info-card__field">
+      <span class="info-card__label">Location</span>
+      <span class="info-card__value">{{ location }}</span>
+    </div>
+  </div>
+</div>
