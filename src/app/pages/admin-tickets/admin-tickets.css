@@ -1,0 +1,8 @@
+.admin-tickets-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
