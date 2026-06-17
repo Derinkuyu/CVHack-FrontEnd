@@ -3,7 +3,12 @@
   flex-direction: column;
   gap: 24px;
   padding: 24px;
-  max-width: 80%;
+  content :center;
   width: 80%;
+  max-width: 80%;
   margin: 0 auto;
+  height: 100vh;      
+  overflow-y: auto;   
+   &::-webkit-scrollbar {
+    display: none;}         
 }
