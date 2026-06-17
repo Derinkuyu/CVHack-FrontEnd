@@ -1,0 +1,79 @@
+<div class="rounded-2xl p-6 border" style="background: var(--ai); border-color: var(--aiBorder); box-shadow: var(--shadow);">
+
+  <!-- Header -->
+  <div class="flex items-center gap-2 mb-4 text-xs font-bold uppercase tracking-wide" style="color: var(--copper); font-family: var(--font-display);">
+    <span>✦</span>
+    <span>AI Match Analysis</span>
+  </div>
+
+  <!-- Score ring + summary -->
+  <div class="flex items-center gap-4">
+    <div class="relative w-20 h-20 flex-shrink-0">
+      <svg viewBox="0 0 80 80" class="w-20 h-20 -rotate-90">
+        <circle cx="40" cy="40" r="36" fill="none" stroke-width="6" style="stroke: var(--border2);"></circle>
+        <circle cx="40" cy="40" r="36" fill="none" stroke-width="6" stroke-linecap="round"
+                style="stroke: var(--green); transition: stroke-dashoffset .6s ease;"
+                [attr.stroke-dasharray]="circumference"
+                [attr.stroke-dashoffset]="dashOffset"></circle>
+      </svg>
+      <div class="absolute inset-0 flex items-center justify-center text-xl font-bold"
+           style="color: var(--text); font-family: var(--font-display);">
+        {{ data.score }}
+      </div>
+    </div>
+
+    <div>
+      <div class="text-sm font-bold mb-1" style="color: var(--text); font-family: var(--font-display);">
+        Strong match
+      </div>
+      <p class="text-xs leading-relaxed m-0" style="color: var(--muted); font-family: var(--font-body);">
+        {{ data.summary }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="h-px my-5" style="background: var(--aiBorder);"></div>
+
+  <!-- Skill breakdown -->
+  <div class="text-xs font-bold uppercase tracking-wide mb-3" style="color: var(--faint); font-family: var(--font-display);">
+    Skill breakdown
+  </div>
+
+  <div class="flex flex-col gap-3">
+    @for (skill of data.skills; track skill.name) {
+      <div>
+        <div class="flex items-center justify-between text-xs mb-1" style="font-family: var(--font-body);">
+          <span class="font-semibold" style="color: var(--text);">{{ skill.name }}</span>
+          <span style="color: var(--muted);">{{ skill.percent }}%</span>
+        </div>
+        <div class="w-full h-1.5 rounded-full overflow-hidden" style="background: var(--border2);">
+          <div class="h-full rounded-full"
+               [style.width]="skill.percent + '%'"
+               [style.background]="skill.status === 'good' ? 'var(--green)' : 'var(--red)'"></div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Skill gap card -->
+@if (data.gapSkills.length) {
+  <div class="rounded-2xl p-6 border mt-4" style="background: var(--surface); border-color: var(--border); box-shadow: var(--shadow);">
+    <div class="flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-wide" style="color: var(--copper); font-family: var(--font-display);">
+      <span>🎯</span>
+      <span>Skill gap</span>
+    </div>
+    <p class="text-sm m-0 mb-3" style="color: var(--muted); font-family: var(--font-body);">
+      To be a top candidate, consider strengthening:
+    </p>
+    <div class="flex items-center gap-2 flex-wrap">
+      @for (skill of data.gapSkills; track skill) {
+        <span class="px-3 py-1 rounded-lg text-xs font-semibold border"
+              style="background: var(--copperSoft); border-color: var(--aiBorder); color: var(--copper); font-family: var(--font-body);">
+          {{ skill }}
+        </span>
+      }
+    </div>
+  </div>
+}

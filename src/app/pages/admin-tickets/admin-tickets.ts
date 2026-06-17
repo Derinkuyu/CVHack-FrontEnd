@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TicketsList, Ticket } from './tickets-list/tickets-list';
 import { TicketDetail } from './ticket-detail/ticket-detail';
+import { AdminSidebar } from '../../components/admin-sidebar/admin-sidebar';
 
 @Component({
   selector: 'app-admin-tickets',
   standalone: true,
-  imports: [CommonModule, TicketsList, TicketDetail],
+  imports: [CommonModule, TicketsList, TicketDetail, AdminSidebar],
   templateUrl: './admin-tickets.html',
   styleUrl: './admin-tickets.css'
 })
