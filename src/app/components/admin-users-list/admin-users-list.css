@@ -1,0 +1,6 @@
+
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) transparent;
+  
+}

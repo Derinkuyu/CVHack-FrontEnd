@@ -1,5 +1,23 @@
-<div class="flex">
-<app-admin-sidebar></app-admin-sidebar>
+<div class="grid grid-cols-6 h-screen overflow-hidden">
+  <app-admin-sidebar class="col-span-1"></app-admin-sidebar>
 
-    <p>admin-users works!</p>
+  <div class="p-8 col-span-5 h-screen flex flex-col overflow-hidden">
+    <app-admin-users-header (searchChange)="onSearch($event)" />
+
+    <div class="gap-6 items-start grid grid-cols-3 flex-1 min-h-0 mt-6">
+      <div class="col-span-2 h-full overflow-y-auto ">
+        <app-admin-users-list
+          [users]="filteredUsers"
+          [selectedUserId]="selectedUser?.id ?? null"
+          (userSelected)="onUserSelected($event)"
+        />
+      </div>
+
+      <app-admin-user-detail-panel
+        class="col-span-1"
+        [user]="selectedUser"
+        
+      />
+    </div>
+  </div>
 </div>
