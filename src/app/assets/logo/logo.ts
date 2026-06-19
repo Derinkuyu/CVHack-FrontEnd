@@ -9,4 +9,5 @@ import { RouterLink } from '@angular/router';
 })
 export class Logo {
   @Input() href: string = '/jobs';
+  @Input() cvColor: string = 'var(--white)';
 }
