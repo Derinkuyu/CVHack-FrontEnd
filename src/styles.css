@@ -115,6 +115,14 @@ input, button, textarea, select { font: inherit; }
 button { cursor: pointer; }
 ::placeholder { color: var(--faint); }
 
+
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) var(--surface);
+  border-radius: 2%;
+  
+}
+
 /* ---- Keyframes (used by skeletons, toasts, typing dots, charts) ---- */
 @keyframes spin    { to { transform: rotate(360deg); } }
 @keyframes blink   { 0%,100% { opacity:.25 } 50% { opacity:1 } }
