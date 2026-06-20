@@ -6,7 +6,7 @@
         Recommended jobs
       </h2>
       <p class="text-sm mt-0.5" style="color: var(--copper)">
-        {{ jobs.length }} roles
+        {{ sortedJobs.length }} roles
         <span style="color: var(--muted)">· sorted by {{ selectedSort }}</span>
       </p>
     </div>
@@ -24,8 +24,8 @@
   </div>
 
   <!-- show job cards -->
-  <div class="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto scroll-area pr-2 scroll-area">
-    @for (job of jobs; track job.id) {
+  <div class="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto scroll-area pr-2 ">
+    @for (job of sortedJobs; track job.id) {
       <app-job-card [job]="job" />
     }
   </div>

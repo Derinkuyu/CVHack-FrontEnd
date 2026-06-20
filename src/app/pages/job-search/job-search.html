@@ -2,7 +2,10 @@
   <app-navbar class="shrink-0"></app-navbar>
 
   <div class="flex p-6 gap-4 flex-1 min-h-0">
-    <app-sidebar></app-sidebar>
-    <app-job-cards-container class="flex-1 min-h-0"></app-job-cards-container>
+    <app-sidebar (filtersChanged)="onFiltersChanged($event)"></app-sidebar>
+    <app-job-cards-container
+      class="flex-1 min-h-0"
+      [activeFilters]="currentFilters"
+    ></app-job-cards-container>
   </div>
 </div>

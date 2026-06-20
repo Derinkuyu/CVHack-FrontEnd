@@ -24,14 +24,14 @@
       >Country</label
     >
     <select
-      [(ngModel)]="filters.country"
-      (ngModelChange)="onCountryChange()"
+      [ngModel]="filters().country"
+      (ngModelChange)="onCountryChange($event)"
       class="w-full rounded-lg px-3 py-2 text-sm border outline-none"
       style="background: var(--surface2); border-color: var(--border2); color: var(--text)"
     >
       <option value="">All locations</option>
-      @for (country of countries; track country.value) {
-        <option [value]="country.value">{{ country.label }}</option>
+      @for (country of countries; track country) {
+        <option [value]="country">{{ country }}</option>
       }
     </select>
   </div>
@@ -44,13 +44,14 @@
       >City</label
     >
     <select
-      [(ngModel)]="filters.city"
+      [ngModel]="filters().city"
+      (ngModelChange)="onCityChange($event)"
       class="w-full rounded-lg px-3 py-2 text-sm border outline-none"
       style="background: var(--surface2); border-color: var(--border2); color: var(--text)"
     >
       <option value="">All cities</option>
-      @for (city of cities; track city.value) {
-        <option [value]="city.value">{{ city.label }}</option>
+      @for (city of cities; track city) {
+        <option [value]="city">{{ city }}</option>
       }
     </select>
   </div>
@@ -110,7 +111,7 @@
         >Min Salary</label
       >
       <span class="text-sm font-semibold" style="color: var(--copper)">
-        EGP {{ filters.minSalary }}k+/mo
+        EGP {{ filters().minSalary }}k+/mo
       </span>
     </div>
     <input
@@ -118,7 +119,8 @@
       [min]="salarySliderMin()"
       [max]="salarySliderMax()"
       [step]="salarySliderStep()"
-      [(ngModel)]="filters.minSalary"
+      [ngModel]="filters().minSalary"
+      (ngModelChange)="onSalaryChange($event)"
       class="w-full h-2 rounded-full cursor-pointer salary-slider"
       style="accent-color: var(--copper)"
     />
@@ -134,10 +136,10 @@
     <div class="grid grid-cols-2 gap-2">
       @for (opt of dateOptions; track opt) {
         <button
-          (click)="filters.datePosted = opt"
+          (click)="setDatePosted(opt)"
           class="px-3 py-2 rounded-xl text-sm border"
           [style]="
-            filters.datePosted === opt
+            filters().datePosted === opt
               ? 'background: var(--copperSoft); border-color: var(--copper); color: var(--copper); font-weight: 600;'
               : 'background: var(--surface2); border-color: var(--border2); color: var(--muted);'
           "
