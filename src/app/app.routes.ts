@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'jobs', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   // Auth
   {
@@ -44,7 +44,7 @@ export const routes: Routes = [
 
   // Admin pages
   {
-    path: 'admin',
+    path: 'admin/dashboard',
     loadComponent: () =>
       import('./pages/admin-dashboard/admin-dashboard').then((c) => c.AdminDashboard),
   },

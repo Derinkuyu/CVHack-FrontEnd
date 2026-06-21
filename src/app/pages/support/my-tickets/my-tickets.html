@@ -1,0 +1,19 @@
+<div class="my-tickets-card">
+  <h3 class="my-tickets-card__title">My tickets</h3>
+
+  <div class="my-tickets-card__list">
+    <div class="my-ticket-item" *ngFor="let ticket of tickets">
+      <div class="my-ticket-item__header">
+        <span class="my-ticket-item__id">{{ ticket.id }}</span>
+        <span [ngClass]="statusClass(ticket.status)">{{ ticket.status }}</span>
+      </div>
+
+      <p class="my-ticket-item__subject">{{ ticket.subject }}</p>
+
+      <div class="my-ticket-item__footer">
+        <span class="my-ticket-item__tag">{{ ticket.category }}</span>
+        <span class="my-ticket-item__date">{{ ticket.date }}</span>
+      </div>
+    </div>
+  </div>
+</div>

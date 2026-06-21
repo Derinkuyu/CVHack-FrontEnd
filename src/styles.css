@@ -55,6 +55,7 @@
 
   /* more */
   --white: #FFFFFF;
+  --black: #000000;
 
 }
 
@@ -95,6 +96,7 @@
 
   
   --white: #FFFFFF;
+  --black: #000000;
 }
 
 /* ---- Base / reset ---- */
@@ -112,6 +114,14 @@ body {
 input, button, textarea, select { font: inherit; }
 button { cursor: pointer; }
 ::placeholder { color: var(--faint); }
+
+
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border2) var(--surface);
+  border-radius: 2%;
+  
+}
 
 /* ---- Keyframes (used by skeletons, toasts, typing dots, charts) ---- */
 @keyframes spin    { to { transform: rotate(360deg); } }

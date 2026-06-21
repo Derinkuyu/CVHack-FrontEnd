@@ -1,0 +1,47 @@
+<div class="ticket-detail" *ngIf="ticket">
+  <div class="ticket-detail__card">
+    <div class="ticket-detail__header">
+      <span class="ticket-detail__id">{{ ticket.id }}</span>
+      <span [ngClass]="statusClass(ticket.status)">{{ ticket.status }}</span>
+    </div>
+
+    <h3 class="ticket-detail__subject">{{ ticket.subject }}</h3>
+
+    <div class="ticket-detail__grid">
+      <div class="ticket-detail__field">
+        <span class="ticket-detail__label">From</span>
+        <span class="ticket-detail__value">{{ ticket.user }}</span>
+      </div>
+      <div class="ticket-detail__field">
+        <span class="ticket-detail__label">Priority</span>
+        <span class="ticket-detail__value">{{ priority }}</span>
+      </div>
+      <div class="ticket-detail__field">
+        <span class="ticket-detail__label">Category</span>
+        <span class="ticket-detail__value">{{ category }}</span>
+      </div>
+      <div class="ticket-detail__field">
+        <span class="ticket-detail__label">Opened</span>
+        <span class="ticket-detail__value">{{ ticket.date }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticket-detail__message-card">
+    <p class="ticket-detail__message">{{ description }}</p>
+
+    <textarea
+      class="ticket-detail__reply-input"
+      placeholder="Write a reply..."
+      [(ngModel)]="replyText"
+    ></textarea>
+
+    <button class="ticket-detail__send-btn" (click)="sendReply()">
+      ➤ Send reply
+    </button>
+  </div>
+</div>
+
+<div class="ticket-detail__empty" *ngIf="!ticket">
+  Select a ticket to view details
+</div>

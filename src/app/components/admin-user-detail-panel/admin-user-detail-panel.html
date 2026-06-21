@@ -1,0 +1,82 @@
+<div
+  class="rounded-2xl border p-6"
+  style="background: var(--surface); border-color: var(--border); box-shadow: var(--shadow)"
+>
+  @if (user) {
+    <!-- Avatar + name -->
+    <div class="flex flex-col items-center text-center mb-5">
+      <div
+        class="w-16 h-16 rounded-2xl flex items-center justify-center text-lg font-bold mb-3"
+        style="background: var(--teal); color: var(--surface); font-family: var(--font-display)"
+      >
+        {{ user.initials }}
+      </div>
+      <h3 class="text-lg font-bold" style="color: var(--text); font-family: var(--font-display)">
+        {{ user.name }}
+      </h3>
+      <p class="text-sm" style="color: var(--muted)">{{ user.email }}</p>
+    </div>
+
+    <div class="border-t mb-5" style="border-color: var(--border)"></div>
+
+    <!-- Info grid -->
+    <div class="grid grid-cols-2 gap-y-4 mb-6">
+      <div>
+        <p
+          class="text-xs tracking-widest uppercase mb-1"
+          style="color: var(--faint); font-family: var(--font-mono)"
+        >
+          Role
+        </p>
+        <p class="text-sm font-semibold" style="color: var(--text)">{{ user.role }}</p>
+      </div>
+      <div>
+        <p
+          class="text-xs tracking-widest uppercase mb-1"
+          style="color: var(--faint); font-family: var(--font-mono)"
+        >
+          Plan
+        </p>
+        <p class="text-sm font-semibold" style="color: var(--text)">{{ user.plan }}</p>
+      </div>
+      <div>
+        <p
+          class="text-xs tracking-widest uppercase mb-1"
+          style="color: var(--faint); font-family: var(--font-mono)"
+        >
+          Joined
+        </p>
+        <p class="text-sm font-semibold" style="color: var(--text)">{{ user.joined }}</p>
+      </div>
+      <div>
+        <p
+          class="text-xs tracking-widest uppercase mb-1"
+          style="color: var(--faint); font-family: var(--font-mono)"
+        >
+          Searches
+        </p>
+        <p class="text-sm font-semibold" style="color: var(--text)">{{ user.searches }}</p>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex gap-3">
+      <button
+        class="flex-1 py-2.5 rounded-xl text-sm font-semibold border"
+        style="background: var(--surface); border-color: var(--border2); color: var(--text)"
+      >
+        Message
+      </button>
+      <button
+        class="flex-1 py-2.5 rounded-xl text-sm font-semibold border"
+        style="background: var(--redSoft); border-color: var(--red); color: var(--red)"
+      >
+        Suspend
+      </button>
+    </div>
+  } @else {
+    <p class="text-sm text-center py-10" style="color: var(--muted)">
+      Select a user to view details
+    </p>
+  }
+</div>

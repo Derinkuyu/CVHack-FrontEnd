@@ -1,0 +1,63 @@
+<aside class=" h-screen flex flex-col shrink-0" style="background: var(--teal)">
+  <!-- Logo + label -->
+  <div class="flex justify-between items-center px-6 pt-6 pb-5">
+    <div class="">
+      <app-logo href="/admin/dashboard"></app-logo>
+      <p
+        class="text-xs mt-1 tracking-widest uppercase"
+        style="color: var(--faint); font-family: var(--font-mono)"
+      >
+        Admin Console
+      </p>
+    </div>
+    <app-theme-toggle></app-theme-toggle>
+  </div>
+
+  <!-- Nav links -->
+  <nav class="flex flex-col gap-2 px-3 font-medium" style="color: var(--faint)">
+    <a
+      routerLink="/admin/dashboard"
+      routerLinkActive="admin-link-active"
+      class="admin-link no-underline flex items-center gap-2 cursor-pointer py-4 px-4 rounded-r-lg"
+    >
+      <app-dashboard-icon routerLinkActive="admin-link-active-icon"></app-dashboard-icon>
+      Dashboard
+    </a>
+
+    <a
+      routerLink="/admin/tickets"
+      routerLinkActive="admin-link-active"
+      class="admin-link no-underline flex items-center gap-2 cursor-pointer py-4 px-4 rounded-r-lg"
+    >
+      <app-ticket-icon routerLinkActive="admin-link-active-icon"></app-ticket-icon>
+      Tickets
+    </a>
+
+    <a
+      routerLink="/admin/users"
+      routerLinkActive="admin-link-active"
+      class="admin-link no-underline flex items-center gap-2 cursor-pointer py-4 px-4 rounded-r-lg"
+    >
+      <app-users-icon routerLinkActive="admin-link-active-icon"></app-users-icon>
+      Users
+    </a>
+  </nav>
+
+  <!-- Spacer pushes footer down -->
+  <div class="flex-1"></div>
+
+  <!-- Footer -->
+  <div
+    class="px-3 pb-6 pt-3 border-t flex flex-col gap-1"
+    style="border-color: rgba(255, 255, 255, 0.08)"
+  >
+    <a
+      routerLink="/jobs"
+      class="admin-link no-underline font-medium flex items-center gap-2 cursor-pointer"
+      style="color: var(--faint)"
+    >
+      <app-back-icon></app-back-icon>
+      Back to app
+    </a>
+  </div>
+</aside>

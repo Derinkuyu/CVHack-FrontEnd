@@ -1,12 +1,12 @@
-<div class="flex flex-col gap-4 px-4 py-1">
-  <div class="flex items-center justify-between ">
+<div class="flex flex-col gap-4 px-4 py-1 h-full min-h-0">
+  <div class="flex items-center justify-between shrink-0">
     <!-- Left: Title + subtitle -->
     <div>
       <h2 class="text-xl font-bold" style="color: var(--text); font-family: var(--font-display)">
         Recommended jobs
       </h2>
       <p class="text-sm mt-0.5" style="color: var(--copper)">
-        {{ jobs.length }} roles
+        {{ sortedJobs.length }} roles
         <span style="color: var(--muted)">· sorted by {{ selectedSort }}</span>
       </p>
     </div>
@@ -24,8 +24,9 @@
   </div>
 
   <!-- show job cards -->
-
-  @for (job of jobs; track job.id) {
-    <app-job-card [job]="job" />
-  }
+  <div class="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto scroll-area pr-2 ">
+    @for (job of sortedJobs; track job.id) {
+      <app-job-card [job]="job" />
+    }
+  </div>
 </div>
