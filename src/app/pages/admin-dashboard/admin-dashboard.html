@@ -1,1 +1,39 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard-layout">
+
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <main class="dashboard-main">
+
+    <!-- Header -->
+    <div class="dash-header">
+      <div>
+        <h1 class="dash-title">Dashboard</h1>
+        <p class="dash-sub">Platform overview · last 7 days</p>
+      </div>
+      <div class="date-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        {{ dateRange }}
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <app-stats-cards [cards]="stats"></app-stats-cards>
+
+    <!-- Charts row 1 -->
+    <div class="charts-row">
+      <div class="chart-wide">
+        <app-daily-searches-chart [data]="dailySearches"></app-daily-searches-chart>
+      </div>
+      <div class="chart-narrow">
+        <app-jobs-by-category-chart [data]="jobsByCategory"></app-jobs-by-category-chart>
+      </div>
+    </div>
+
+    <!-- Charts row 2 -->
+    <app-match-score-chart [data]="matchScores"></app-match-score-chart>
+
+  </main>
+</div>

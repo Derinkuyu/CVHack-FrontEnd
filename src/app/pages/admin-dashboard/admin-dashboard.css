@@ -1,0 +1,62 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+/* Header */
+.dash-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.dash-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.dash-sub {
+  font-family: var(--font-body);
+  font-size: .85rem;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+.date-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--copper);
+  box-shadow: var(--shadow);
+}
+
+/* Charts grid */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.chart-wide  { grid-column: span 1; }
+.chart-narrow { grid-column: span 1; }

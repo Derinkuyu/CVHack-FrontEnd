@@ -1,0 +1,13 @@
+.interview-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px); /* subtract navbar height */
+  overflow: hidden;
+}
+
+.interview-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}

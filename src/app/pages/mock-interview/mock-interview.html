@@ -1,3 +1,10 @@
 <app-navbar></app-navbar>
 
-<p>mock-interview works!</p>
+<div class="interview-page">
+  <app-interview-header [data]="headerData"></app-interview-header>
+
+  <div class="interview-body">
+    <app-chat-window [messages]="messages"></app-chat-window>
+    <app-chat-input (sendMessage)="onSend($event)"></app-chat-input>
+  </div>
+</div>
