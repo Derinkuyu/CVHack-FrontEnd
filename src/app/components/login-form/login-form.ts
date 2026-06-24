@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MailIcon } from "../../assets/mail-icon/mail-icon";
 import { LockIcon } from "../../assets/lock-icon/lock-icon";
 import { EyeIcon } from "../../assets/eye-icon/eye-icon";
+import { AuthService } from '../../services/auth.service';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 @Component({
   selector: 'app-login-form',
@@ -12,19 +15,65 @@ import { EyeIcon } from "../../assets/eye-icon/eye-icon";
   styleUrl: './login-form.css',
 })
 export class LoginForm {
-  email = '';
-  password = '';
-  showPassword = false;
+  email = signal('');
+  password = signal('');
+  showPassword = signal(false);
 
-  constructor(private router: Router) { }
+  loading = signal(false);
+  errorMessage = signal('');
 
+  emailValid = computed(() => EMAIL_REGEX.test(this.email().trim()));
+
+  showEmailError = computed(() => this.email().length > 0 && !this.emailValid());
+
+  formValid = computed(
+    () => this.email().trim().length > 0 && this.password().length > 0 && this.emailValid()
+  );
+
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
   togglePassword() {
-    this.showPassword = !this.showPassword;
+    this.showPassword.set(!this.showPassword());
   }
 
   onSubmit() {
-    console.log('Login attempt:', this.email, this.password);
-    this.router.navigate(['/jobs']);
+    if (!this.formValid()) return; // guard against Enter key bypassing the disabled button
+
+    this.errorMessage.set('');
+    this.loading.set(true);
+
+    this.authService.login({ email: this.email().trim(), password: this.password() }).subscribe({
+      next: (res) => {
+        this.loading.set(false);
+        if (res.isSuccess) {
+          this.router.navigate(['/jobs']);
+        } else {
+          this.errorMessage.set(this.friendlyError(res.statusCode, res.message));
+        }
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.errorMessage.set(this.friendlyError(err.status, err.error?.message));
+        password: this.password.set('');
+      },
+    });
+  }
+
+  // Turn raw status codes / backend messages into clear, user-friendly text
+  private friendlyError(status: number, backendMessage?: string | null): string {
+    switch (status) {
+      case 0:
+        return 'Cannot reach the server. Please check your connection and try again.';
+      case 400:
+      case 401:
+        return 'Incorrect email or password. Please try again.';
+      case 403:
+        return 'Your account does not have permission to log in.';
+      case 500:
+        return 'Something went wrong on our end. Please try again later.';
+      default:
+        return backendMessage || 'Unable to log in. Please try again.';
+    }
   }
 }
