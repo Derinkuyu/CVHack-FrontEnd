@@ -6,7 +6,7 @@ import { ThemeToggle } from '../../components/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-login',
-  imports: [AuthCard , LoginForm , FeaturePills, ThemeToggle],
+  imports: [AuthCard, LoginForm, FeaturePills],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
