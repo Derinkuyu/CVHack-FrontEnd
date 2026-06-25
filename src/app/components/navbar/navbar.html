@@ -24,29 +24,25 @@
     class="flex items-center gap-6 ml-auto text-sm font-bold"
     style="font-family: var(--font-body); color: var(--faint)"
   >
-    <a
-      routerLink="/jobs"
-      routerLinkActive="nav-link-active"
-      class="nav-link no-underline "
-      >Jobs</a
-    >
-    <a
-      routerLink="/profile"
-      routerLinkActive="nav-link-active"
-      class="nav-link no-underline "
+    <a routerLink="/jobs" routerLinkActive="nav-link-active" class="nav-link no-underline">Jobs</a>
+    <a routerLink="/profile" routerLinkActive="nav-link-active" class="nav-link no-underline"
       >Profile</a
     >
-    <a
-      routerLink="/support"
-      routerLinkActive="nav-link-active"
-      class="nav-link no-underline "
+    <a routerLink="/support" routerLinkActive="nav-link-active" class="nav-link no-underline"
       >Support</a
     >
-    <a
-      routerLink="/admin/dashboard"
-      class="nav-link no-underline "
-      >Admin</a
+    @if (isAdmin) {
+      <a routerLink="/admin/dashboard" class="nav-link no-underline">Admin</a>
+    }
+    <!-- Logout -->
+    <button
+      type="button"
+      (click)="logout()"
+      class="nav-link no-underline text-sm font-bold cursor-pointer bg-transparent border-0"
+      style="font-family: var(--font-body); color: var(--faint)"
     >
+      Logout
+    </button>
   </div>
 
   <!-- Divider -->

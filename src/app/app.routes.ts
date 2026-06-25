@@ -1,68 +1,70 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  // Auth
+  // Auth (public)
   {
     path: 'login',
-    loadComponent: () =>
-      import('./pages/login/login').then((c) => c.Login),
+    canActivate: [guestGuard],
+    loadComponent: () => import('./pages/login/login').then((c) => c.Login),
   },
   {
     path: 'register',
-    loadComponent: () =>
-      import('./pages/register/register').then((c) => c.Register),
+    canActivate: [guestGuard],
+    loadComponent: () => import('./pages/register/register').then((c) => c.Register),
   },
 
-  // User pages
+  // User pages (require login)
   {
     path: 'jobs',
-    loadComponent: () =>
-      import('./pages/job-search/job-search').then((c) => c.JobSearch),
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/job-search/job-search').then((c) => c.JobSearch),
   },
   {
     path: 'jobs/:id',
-    loadComponent: () =>
-      import('./pages/job-detail/job-detail').then((c) => c.JobDetail),
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/job-detail/job-detail').then((c) => c.JobDetail),
   },
   {
     path: 'mock-interview',
-    loadComponent: () =>
-      import('./pages/mock-interview/mock-interview').then((c) => c.MockInterview),
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/mock-interview/mock-interview').then((c) => c.MockInterview),
   },
   {
     path: 'profile',
-    loadComponent: () =>
-      import('./pages/profile/profile/profile').then((c) => c.Profile),
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/profile/profile/profile').then((c) => c.Profile),
   },
   {
     path: 'support',
-    loadComponent: () =>
-      import('./pages/support/support').then((c) => c.Support),
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/support/support').then((c) => c.Support),
   },
 
-  // Admin pages
+  // Admin pages (require login + Admin role)
   {
     path: 'admin/dashboard',
-    loadComponent: () =>
-      import('./pages/admin-dashboard/admin-dashboard').then((c) => c.AdminDashboard),
+    canActivate: [adminGuard],
+    loadComponent: () => import('./pages/admin-dashboard/admin-dashboard').then((c) => c.AdminDashboard),
   },
   {
     path: 'admin/tickets',
-    loadComponent: () =>
-      import('./pages/admin-tickets/admin-tickets').then((c) => c.AdminTickets),
+    canActivate: [adminGuard],
+    loadComponent: () => import('./pages/admin-tickets/admin-tickets').then((c) => c.AdminTickets),
   },
   {
     path: 'admin/users',
-    loadComponent: () =>
-      import('./pages/admin-users/admin-users').then((c) => c.AdminUsers),
+    canActivate: [adminGuard],
+    loadComponent: () => import('./pages/admin-users/admin-users').then((c) => c.AdminUsers),
   },
 
   // Fallback
-  { 
-    path: '**', 
-    loadComponent: () =>
-      import('./pages/not-found/not-found').then((c) => c.NotFound),
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found/not-found').then((c) => c.NotFound),
   },
 ];

@@ -47,7 +47,7 @@ export class LoginForm {
       next: (res) => {
         this.loading.set(false);
         if (res.isSuccess) {
-          this.router.navigate(['/jobs']);
+          this.router.navigateByUrl(this.authService.getLandingUrl());
         } else {
           this.errorMessage.set(this.friendlyError(res.statusCode, res.message));
         }
