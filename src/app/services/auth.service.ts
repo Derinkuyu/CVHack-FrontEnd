@@ -36,4 +36,15 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+  getRoles(): string[] {
+    const raw = localStorage.getItem('roles');
+    return raw ? JSON.parse(raw) : [];
+  }
+
+  hasRole(role: string): boolean {
+    return this.getRoles().includes(role);
+  }
+  getLandingUrl(): string {
+    return this.hasRole('Admin') ? '/admin/dashboard' : '/jobs';
+  }
 }

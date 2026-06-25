@@ -1,4 +1,4 @@
-<aside class=" h-screen flex flex-col shrink-0" style="background: var(--teal)">
+<aside class="h-screen flex flex-col shrink-0" style="background: var(--teal)">
   <!-- Logo + label -->
   <div class="flex justify-between items-center px-6 pt-6 pb-5">
     <div class="">
@@ -53,11 +53,20 @@
   >
     <a
       routerLink="/jobs"
-      class="admin-link no-underline font-medium flex items-center gap-2 cursor-pointer"
+      class="admin-link no-underline font-medium flex items-center gap-2 cursor-pointer my-2"
       style="color: var(--faint)"
     >
       <app-back-icon></app-back-icon>
       Back to app
     </a>
+    <button
+      type="button"
+      (click)="logout()"
+      class="admin-link no-underline font-medium flex items-center gap-2 cursor-pointer bg-transparent border-0 text-left"
+      style="color: var(--faint)"
+    >
+      <app-logout-icon ></app-logout-icon>
+      Logout
+    </button>
   </div>
 </aside>
