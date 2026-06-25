@@ -25,12 +25,16 @@
     style="font-family: var(--font-body); color: var(--faint)"
   >
     <a routerLink="/jobs" routerLinkActive="nav-link-active" class="nav-link no-underline">Jobs</a>
-    <a routerLink="/profile" routerLinkActive="nav-link-active" class="nav-link no-underline"
-      >Profile</a
-    >
-    <a routerLink="/support" routerLinkActive="nav-link-active" class="nav-link no-underline"
-      >Support</a
-    >
+    @if (!isAdmin) {
+      <a routerLink="/profile" routerLinkActive="nav-link-active" class="nav-link no-underline"
+        >Profile</a
+      >
+    }
+    @if (!isAdmin) {
+      <a routerLink="/support" routerLinkActive="nav-link-active" class="nav-link no-underline"
+        >Support</a
+      >
+    }
     @if (isAdmin) {
       <a routerLink="/admin/dashboard" class="nav-link no-underline">Admin</a>
     }
@@ -56,6 +60,6 @@
     class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold cursor-pointer"
     style="background: var(--copper); color: var(--text); font-family: var(--font-display)"
   >
-    <a routerLink="/profile"> {{ initials }} </a>
+    <a [routerLink]="!isAdmin ? '/profile' : null"> {{ initials }} </a>
   </div>
 </nav>

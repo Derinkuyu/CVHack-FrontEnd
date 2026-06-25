@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 import { guestGuard } from './guards/guest.guard';
+import { jobSeekerGuard } from './guards/job-seeker.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -36,12 +37,12 @@ export const routes: Routes = [
   },
   {
     path: 'profile',
-    canActivate: [authGuard],
+    canActivate: [jobSeekerGuard],
     loadComponent: () => import('./pages/profile/profile/profile').then((c) => c.Profile),
   },
   {
     path: 'support',
-    canActivate: [authGuard],
+    canActivate: [jobSeekerGuard],
     loadComponent: () => import('./pages/support/support').then((c) => c.Support),
   },
 
