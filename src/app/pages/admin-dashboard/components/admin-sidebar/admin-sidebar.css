@@ -1,11 +1,11 @@
 .sidebar {
-  width: 260px;
   min-height: 100vh;
+  height: 100%;
   background: var(--teal);
   display: flex;
   flex-direction: column;
-  padding: 0;
-  flex-shrink: 0;
+  position: sticky;
+  top: 0;
 }
 
 .sidebar-logo {
@@ -44,7 +44,7 @@
   transition: background .15s, color .15s;
 }
 
-.nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+.nav-item:hover  { background: rgba(255,255,255,.07); color: #fff; }
 .nav-item.active { background: var(--copper); color: #fff; }
 
 .nav-icon { width: 18px; height: 18px; flex-shrink: 0; }
