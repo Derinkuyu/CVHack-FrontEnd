@@ -17,6 +17,7 @@ export class Navbar {
   private router = inject(Router);
 
   isAdmin = this.authService.hasRole('Admin');
+  initials = this.authService.getInitials();
 
   logout() {
     this.authService.logout();

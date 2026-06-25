@@ -3,12 +3,12 @@
         (click)="toggleTheme()">
   
   <!-- Moon: shown in light mode -->
-  @if (!isDark) {
+  @if (!isDark()) {
     <app-moon-icon></app-moon-icon>
   }
 
   <!-- Sun: shown in dark mode -->
-  @if (isDark) {
+  @if (isDark()) {
     <app-sun-icon></app-sun-icon>
   }
 

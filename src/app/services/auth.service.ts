@@ -17,6 +17,8 @@ export class AuthService {
           if (res.isSuccess && res.data) {
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('email', res.data.email);
+            localStorage.setItem('firstName', res.data.firstName);
+            localStorage.setItem('lastName', res.data.lastName);
             localStorage.setItem('roles', JSON.stringify(res.data.roles));
           }
         })
@@ -31,6 +33,8 @@ export class AuthService {
           if (res.isSuccess && res.data?.token) {
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('email', res.data.email);
+            localStorage.setItem('firstName', res.data.firstName);
+            localStorage.setItem('lastName', res.data.lastName);
             localStorage.setItem('roles', JSON.stringify(res.data.roles));
           }
         })
@@ -40,6 +44,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
     localStorage.removeItem('roles');
   }
 
@@ -60,5 +66,22 @@ export class AuthService {
   }
   getLandingUrl(): string {
     return this.hasRole('Admin') ? '/admin/dashboard' : '/jobs';
+  }
+  getFirstName(): string {
+    return localStorage.getItem('firstName') ?? '';
+  }
+
+  getLastName(): string {
+    return localStorage.getItem('lastName') ?? '';
+  }
+
+  getFullName(): string {
+    return `${this.getFirstName()} ${this.getLastName()}`.trim();
+  }
+  getInitials(): string {
+    const first = this.getFirstName().charAt(0);
+    const last = this.getLastName().charAt(0);
+    const initials = (first + last).toUpperCase();
+    return initials || '?';
   }
 }

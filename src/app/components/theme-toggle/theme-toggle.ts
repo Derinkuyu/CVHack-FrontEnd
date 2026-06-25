@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MoonIcon } from '../../assets/moon-icon/moon-icon';
 import { SunIcon } from '../../assets/sun-icon/sun-icon';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-theme-toggle',
@@ -9,10 +10,10 @@ import { SunIcon } from '../../assets/sun-icon/sun-icon';
   styleUrls: ['./theme-toggle.css'],
 })
 export class ThemeToggle {
-  isDark = false;
+  private theme = inject(ThemeService);
+  isDark = this.theme.isDark;   
 
   toggleTheme() {
-    this.isDark = !this.isDark;
-    document.documentElement.setAttribute('data-theme', this.isDark ? 'dark' : '');
+    this.theme.toggle();
   }
 }
