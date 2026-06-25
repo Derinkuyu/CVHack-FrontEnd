@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { ApiResult, AuthResult, LoginPayload } from '../models/auth.model';
+import { ApiResult, AuthResult, LoginPayload, RegisterPayload } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,6 +15,20 @@ export class AuthService {
       .pipe(
         tap((res) => {
           if (res.isSuccess && res.data) {
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('email', res.data.email);
+            localStorage.setItem('roles', JSON.stringify(res.data.roles));
+          }
+        })
+      );
+  }
+  register(payload: RegisterPayload): Observable<ApiResult<AuthResult>> {
+    return this.http
+      .post<ApiResult<AuthResult>>(`${this.apiUrl}/auth/register/jobseeker`, payload)
+      .pipe(
+        tap((res) => {
+          // Backend logs the user straight in and returns a token
+          if (res.isSuccess && res.data?.token) {
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('email', res.data.email);
             localStorage.setItem('roles', JSON.stringify(res.data.roles));

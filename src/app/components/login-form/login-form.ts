@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MailIcon } from "../../assets/mail-icon/mail-icon";
 import { LockIcon } from "../../assets/lock-icon/lock-icon";
 import { EyeIcon } from "../../assets/eye-icon/eye-icon";
@@ -32,6 +32,14 @@ export class LoginForm {
 
   private router = inject(Router);
   private authService = inject(AuthService);
+
+  private route = inject(ActivatedRoute);
+
+  constructor() {
+    if (this.route.snapshot.queryParams['sessionExpired']) {
+      this.errorMessage.set('Your session expired. Please log in again.');
+    }
+  }
 
   togglePassword() {
     this.showPassword.set(!this.showPassword());

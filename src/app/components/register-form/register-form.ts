@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { RegisterPayload } from '../../models/auth.model';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -25,6 +25,9 @@ export class RegisterForm {
 
   showPassword = false;
   showConfirmPassword = false;
+
+  loading = input(false);
+  serverError = input('');
 
   seniorityLevels = ['Junior', 'Mid-level', 'Senior', 'Lead', 'Executive'];
 
@@ -72,6 +75,7 @@ export class RegisterForm {
     const suggestions: string[] = [];
     if (pw.length < 8) suggestions.push('At least 8 characters');
     if (!/[A-Z]/.test(pw)) suggestions.push('One uppercase letter');
+    if (!/[a-z]/.test(pw)) suggestions.push('One lowercase letter');
     if (!/[0-9]/.test(pw)) suggestions.push('One number');
     if (!/[^A-Za-z0-9]/.test(pw)) suggestions.push('One special character');
     return suggestions;
@@ -82,6 +86,16 @@ export class RegisterForm {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(this.email);
   }
+  get isPasswordValid(): boolean {
+    const pw = this.password;
+    return (
+      pw.length >= 8 &&
+      /[A-Z]/.test(pw) &&
+      /[a-z]/.test(pw) &&
+      /[0-9]/.test(pw) &&
+      /[^A-Za-z0-9]/.test(pw)
+    );
+  }
 
   get canSubmit(): boolean {
     return (
@@ -89,7 +103,7 @@ export class RegisterForm {
       this.lastName.trim().length > 0 &&
       this.email.trim().length > 0 &&
       this.isEmailValid &&
-      this.password.length >= 6 &&
+      this.isPasswordValid &&
       this.password === this.confirmPassword &&
       this.title.trim().length > 0 &&
       this.seniority.trim().length > 0

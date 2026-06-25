@@ -209,6 +209,9 @@
     and
     <span class="font-medium no-underline" style="color: var(--copper)">Privacy Policy</span>.
   </p>
+  @if (serverError()) {
+    <p class="text-sm mb-4" style="color: var(--red)">{{ serverError() }}</p>
+  }
 
   <!-- Submit -->
   <button
@@ -219,7 +222,7 @@
     [style.color]="canSubmit ? 'var(--surface)' : 'var(--faint)'"
     [style.cursor]="canSubmit ? 'pointer' : 'not-allowed'"
   >
-    Create account
+    {{ loading() ? 'Creating account...' : 'Create account' }}
   </button>
 
   <p class="text-center text-sm" style="color: var(--muted)">
