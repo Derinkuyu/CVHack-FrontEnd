@@ -12,7 +12,8 @@ import { JobFilters } from '../../models/job-filters.model';
 })
 export class JobCardsContainer {
   @Input() activeFilters: JobFilters | null = null;
-
+  @Input() jobs: Job[] = [];
+  
   sortOptions = ['Best match', 'Most recent', 'Highest salary'];
   selectedSort = 'Best match';
 
@@ -22,148 +23,148 @@ export class JobCardsContainer {
     'Past month': 24 * 30,
   };
 
-  jobs: Job[] = [
-    {
-      id: 1,
-      initials: 'NL',
-      title: 'Senior Frontend Engineer',
-      company: 'Nile Logic',
-      location: 'New Cairo, Egypt',
-      postedAgo: '2h ago',
-      tags: ['Remote', 'Full-time', 'Senior'],
-      salaryMin: 55,
-      salaryMax: 75,
-      matchScore: 92,
-      description:
-        'Build the next generation of our analytics platform with React, TypeScript and a modern internal design system. You will own the component architecture end to end.',
-    },
-    {
-      id: 2,
-      initials: 'TC',
-      title: 'Backend Engineer',
-      company: 'TechCorp',
-      location: 'Cairo, Egypt',
-      postedAgo: '1d ago',
-      tags: ['On-site', 'Full-time', 'Mid-level'],
-      salaryMin: 30,
-      salaryMax: 45,
-      matchScore: 65,
-      description:
-        'Join our backend team to build scalable APIs and microservices using Node.js and PostgreSQL.',
-    },
-    {
-      id: 3,
-      initials: 'DS',
-      title: 'UI/UX Designer',
-      company: 'Design Studio',
-      location: 'Alexandria, Egypt',
-      postedAgo: '5h ago',
-      tags: ['Hybrid', 'Full-time', 'Mid-level'],
-      salaryMin: 25,
-      salaryMax: 40,
-      matchScore: 81,
-      description:
-        'Create modern user experiences and collaborate closely with product managers and developers.',
-    },
-    {
-      id: 4,
-      initials: 'AI',
-      title: 'AI Engineer',
-      company: 'AIVision',
-      location: 'Smart Village, Egypt',
-      postedAgo: '3d ago',
-      tags: ['Remote', 'Full-time', 'Senior'],
-      salaryMin: 60,
-      salaryMax: 90,
-      matchScore: 88,
-      description:
-        'Develop and optimize machine learning pipelines and AI-powered applications.',
-    },
-    {
-      id: 5,
-      initials: 'FS',
-      title: 'Full Stack Developer',
-      company: 'FutureSoft',
-      location: 'Giza, Egypt',
-      postedAgo: '6h ago',
-      tags: ['Hybrid', 'Full-time', 'Junior'],
-      salaryMin: 20,
-      salaryMax: 35,
-      matchScore: 73,
-      description:
-        'Work on both frontend and backend systems using Angular, .NET Core, and SQL Server.',
-    },
-    {
-      id: 6,
-      initials: 'CM',
-      title: 'Cloud DevOps Engineer',
-      company: 'CloudMatrix',
-      location: 'Remote',
-      postedAgo: '12h ago',
-      tags: ['Remote', 'Contract', 'Senior'],
-      salaryMin: 50,
-      salaryMax: 80,
-      matchScore: 84,
-      description:
-        'Manage CI/CD pipelines, Kubernetes clusters, and cloud infrastructure on Azure.',
-    },
-    {
-      id: 7,
-      initials: 'MG',
-      title: 'Mobile App Developer',
-      company: 'MobileGen',
-      location: 'Mansoura, Egypt',
-      postedAgo: '2d ago',
-      tags: ['On-site', 'Full-time', 'Mid-level'],
-      salaryMin: 28,
-      salaryMax: 42,
-      matchScore: 70,
-      description:
-        'Build high-performance mobile applications using Flutter and Firebase.',
-    },
-    {
-      id: 8,
-      initials: 'SX',
-      title: 'Cybersecurity Analyst',
-      company: 'SecureX',
-      location: 'Cairo, Egypt',
-      postedAgo: '4d ago',
-      tags: ['Hybrid', 'Full-time', 'Senior'],
-      salaryMin: 45,
-      salaryMax: 70,
-      matchScore: 79,
-      description:
-        'Monitor infrastructure security, investigate threats, and improve system protection.',
-    },
-    {
-      id: 9,
-      initials: 'DT',
-      title: 'Data Analyst',
-      company: 'DataTrack',
-      location: 'New Capital, Egypt',
-      postedAgo: '8h ago',
-      tags: ['Remote', 'Part-time', 'Junior'],
-      salaryMin: 18,
-      salaryMax: 30,
-      matchScore: 68,
-      description:
-        'Analyze business data and create dashboards and reports using Power BI and SQL.',
-    },
-    {
-      id: 10,
-      initials: 'PX',
-      title: 'Product Manager',
-      company: 'PixelWorks',
-      location: 'Cairo, Egypt',
-      postedAgo: '1w ago',
-      tags: ['Hybrid', 'Full-time', 'Senior'],
-      salaryMin: 55,
-      salaryMax: 85,
-      matchScore: 75,
-      description:
-        'Lead cross-functional teams to deliver innovative digital products and features.',
-    },
-  ];
+  // jobs: Job[] = [
+  //   {
+  //     id: 1,
+  //     initials: 'NL',
+  //     title: 'Senior Frontend Engineer',
+  //     company: 'Nile Logic',
+  //     location: 'New Cairo, Egypt',
+  //     postedAgo: '2h ago',
+  //     tags: ['Remote', 'Full-time', 'Senior'],
+  //     salaryMin: 55,
+  //     salaryMax: 75,
+  //     matchScore: 92,
+  //     description:
+  //       'Build the next generation of our analytics platform with React, TypeScript and a modern internal design system. You will own the component architecture end to end.',
+  //   },
+  //   {
+  //     id: 2,
+  //     initials: 'TC',
+  //     title: 'Backend Engineer',
+  //     company: 'TechCorp',
+  //     location: 'Cairo, Egypt',
+  //     postedAgo: '1d ago',
+  //     tags: ['On-site', 'Full-time', 'Mid-level'],
+  //     salaryMin: 30,
+  //     salaryMax: 45,
+  //     matchScore: 65,
+  //     description:
+  //       'Join our backend team to build scalable APIs and microservices using Node.js and PostgreSQL.',
+  //   },
+  //   {
+  //     id: 3,
+  //     initials: 'DS',
+  //     title: 'UI/UX Designer',
+  //     company: 'Design Studio',
+  //     location: 'Alexandria, Egypt',
+  //     postedAgo: '5h ago',
+  //     tags: ['Hybrid', 'Full-time', 'Mid-level'],
+  //     salaryMin: 25,
+  //     salaryMax: 40,
+  //     matchScore: 81,
+  //     description:
+  //       'Create modern user experiences and collaborate closely with product managers and developers.',
+  //   },
+  //   {
+  //     id: 4,
+  //     initials: 'AI',
+  //     title: 'AI Engineer',
+  //     company: 'AIVision',
+  //     location: 'Smart Village, Egypt',
+  //     postedAgo: '3d ago',
+  //     tags: ['Remote', 'Full-time', 'Senior'],
+  //     salaryMin: 60,
+  //     salaryMax: 90,
+  //     matchScore: 88,
+  //     description:
+  //       'Develop and optimize machine learning pipelines and AI-powered applications.',
+  //   },
+  //   {
+  //     id: 5,
+  //     initials: 'FS',
+  //     title: 'Full Stack Developer',
+  //     company: 'FutureSoft',
+  //     location: 'Giza, Egypt',
+  //     postedAgo: '6h ago',
+  //     tags: ['Hybrid', 'Full-time', 'Junior'],
+  //     salaryMin: 20,
+  //     salaryMax: 35,
+  //     matchScore: 73,
+  //     description:
+  //       'Work on both frontend and backend systems using Angular, .NET Core, and SQL Server.',
+  //   },
+  //   {
+  //     id: 6,
+  //     initials: 'CM',
+  //     title: 'Cloud DevOps Engineer',
+  //     company: 'CloudMatrix',
+  //     location: 'Remote',
+  //     postedAgo: '12h ago',
+  //     tags: ['Remote', 'Contract', 'Senior'],
+  //     salaryMin: 50,
+  //     salaryMax: 80,
+  //     matchScore: 84,
+  //     description:
+  //       'Manage CI/CD pipelines, Kubernetes clusters, and cloud infrastructure on Azure.',
+  //   },
+  //   {
+  //     id: 7,
+  //     initials: 'MG',
+  //     title: 'Mobile App Developer',
+  //     company: 'MobileGen',
+  //     location: 'Mansoura, Egypt',
+  //     postedAgo: '2d ago',
+  //     tags: ['On-site', 'Full-time', 'Mid-level'],
+  //     salaryMin: 28,
+  //     salaryMax: 42,
+  //     matchScore: 70,
+  //     description:
+  //       'Build high-performance mobile applications using Flutter and Firebase.',
+  //   },
+  //   {
+  //     id: 8,
+  //     initials: 'SX',
+  //     title: 'Cybersecurity Analyst',
+  //     company: 'SecureX',
+  //     location: 'Cairo, Egypt',
+  //     postedAgo: '4d ago',
+  //     tags: ['Hybrid', 'Full-time', 'Senior'],
+  //     salaryMin: 45,
+  //     salaryMax: 70,
+  //     matchScore: 79,
+  //     description:
+  //       'Monitor infrastructure security, investigate threats, and improve system protection.',
+  //   },
+  //   {
+  //     id: 9,
+  //     initials: 'DT',
+  //     title: 'Data Analyst',
+  //     company: 'DataTrack',
+  //     location: 'New Capital, Egypt',
+  //     postedAgo: '8h ago',
+  //     tags: ['Remote', 'Part-time', 'Junior'],
+  //     salaryMin: 18,
+  //     salaryMax: 30,
+  //     matchScore: 68,
+  //     description:
+  //       'Analyze business data and create dashboards and reports using Power BI and SQL.',
+  //   },
+  //   {
+  //     id: 10,
+  //     initials: 'PX',
+  //     title: 'Product Manager',
+  //     company: 'PixelWorks',
+  //     location: 'Cairo, Egypt',
+  //     postedAgo: '1w ago',
+  //     tags: ['Hybrid', 'Full-time', 'Senior'],
+  //     salaryMin: 55,
+  //     salaryMax: 85,
+  //     matchScore: 75,
+  //     description:
+  //       'Lead cross-functional teams to deliver innovative digital products and features.',
+  //   },
+  // ];
 
   get filteredJobs(): Job[] {
     if (!this.activeFilters) return this.jobs;

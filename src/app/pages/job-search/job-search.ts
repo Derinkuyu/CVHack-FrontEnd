@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { Navbar } from "../../components/navbar/navbar";
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { Navbar } from '../../components/navbar/navbar';
 import { Sidebar } from '../../components/sidebar/sidebar';
 import { JobCardsContainer } from '../../components/job-cards-container/job-cards-container';
 import { JobFilters } from '../../models/job-filters.model';
+import { Job } from '../../models/job.model';
+import { JobsService } from '../../services/jobs.service';
 
 @Component({
   selector: 'app-job-search',
@@ -10,12 +12,22 @@ import { JobFilters } from '../../models/job-filters.model';
   templateUrl: './job-search.html',
   styleUrl: './job-search.css',
 })
-export class JobSearch {
+export class JobSearch implements OnInit {
+  private jobsService = inject(JobsService);
+
+  jobs = signal<Job[]>([]);
+  isLoading = signal(true);
+  errorMessage = signal('');
   currentFilters: JobFilters | null = null;
+
+  ngOnInit() {
+    this.jobsService.getJobs().subscribe({
+      next: (jobs) => { this.jobs.set(jobs); this.isLoading.set(false); },
+      error: () => { this.errorMessage.set('Failed to load jobs.'); this.isLoading.set(false); },
+    });
+  }
 
   onFiltersChanged(filters: JobFilters) {
     this.currentFilters = filters;
-    console.log('Filters changed:', this.currentFilters);
   }
-
 }
