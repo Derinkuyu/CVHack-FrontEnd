@@ -1,7 +1,7 @@
 <div class="ticket-detail" *ngIf="ticket">
   <div class="ticket-detail__card">
     <div class="ticket-detail__header">
-      <span class="ticket-detail__id">{{ ticket.id }}</span>
+      <span class="ticket-detail__id">T-{{ ticket.id }}</span>
       <span [ngClass]="statusClass(ticket.status)">{{ ticket.status }}</span>
     </div>
 
@@ -10,25 +10,33 @@
     <div class="ticket-detail__grid">
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">From</span>
-        <span class="ticket-detail__value">{{ ticket.user }}</span>
-      </div>
-      <div class="ticket-detail__field">
-        <span class="ticket-detail__label">Priority</span>
-        <span class="ticket-detail__value">{{ priority }}</span>
+        <span class="ticket-detail__value">{{ ticket.userName || ticket.userEmail }}</span>
       </div>
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">Category</span>
-        <span class="ticket-detail__value">{{ category }}</span>
+        <span class="ticket-detail__value">{{ ticket.category }}</span>
       </div>
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">Opened</span>
-        <span class="ticket-detail__value">{{ ticket.date }}</span>
+        <span class="ticket-detail__value">{{ ticket.createdAt | date:'MMM d' }}</span>
       </div>
+      <div class="ticket-detail__field">
+        <span class="ticket-detail__label">Update Status</span>
+        <select class="ticket-detail__status-select" [(ngModel)]="selectedStatus" (change)="updateStatus()">
+          <option value="Open">Open</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ticket-detail__success" *ngIf="successMessage">
+      ✅ {{ successMessage }}
     </div>
   </div>
 
   <div class="ticket-detail__message-card">
-    <p class="ticket-detail__message">{{ description }}</p>
+    <p class="ticket-detail__message">{{ ticket.description }}</p>
 
     <textarea
       class="ticket-detail__reply-input"
@@ -36,7 +44,11 @@
       [(ngModel)]="replyText"
     ></textarea>
 
-    <button class="ticket-detail__send-btn" (click)="sendReply()">
+    <button
+      class="ticket-detail__send-btn"
+      (click)="sendReply()"
+      [disabled]="!replyText.trim()"
+    >
       ➤ Send reply
     </button>
   </div>

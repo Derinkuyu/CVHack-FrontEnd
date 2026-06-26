@@ -3,12 +3,29 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+export interface ApiResponse<T> {
+  isSuccess: boolean;
+  statusCode: number;
+  message: string | null;
+  data: T;
+  errors: any[];
+}
+
 export interface ProfileData {
-  fullName: string;
-  jobTitle: string;
-  location: string;
-  email: string;
-  phone: string;
+  id?: number;
+  userId?: string;
+  headline?: string;
+  jobTitle?: string;
+  city?: string;
+  country?: string;
+  phoneNumber?: string;
+  summary?: string;
+  gitHubUrl?: string;
+  linkedInUrl?: string;
+  portfolioUrl?: string;
+  certifications?: any[];
+  educations?: any[];
+  experiences?: any[];
 }
 
 @Injectable({
@@ -24,11 +41,9 @@ export class ProfileService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  getProfile(): Observable<ProfileData> {
-    return this.http.get<ProfileData>(`${this.apiUrl}/profile`, {
-      headers: this.getHeaders()
-    });
-  }
+  getProfile(): Observable<ApiResponse<ProfileData>> {
+  return this.http.get<ApiResponse<ProfileData>>(`${this.apiUrl}/profile`);
+}
 
   updateProfile(data: Partial<ProfileData>): Observable<ProfileData> {
     return this.http.put<ProfileData>(`${this.apiUrl}/profile`, data, {

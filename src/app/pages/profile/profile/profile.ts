@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileHeader } from '../profile-header/profile-header';
 import { ProfileTabs } from '../profile-tabs/profile-tabs';
@@ -10,6 +10,7 @@ import { Certifications } from '../certifications/certifications';
 import { Projects } from '../projects/projects';
 import { Navbar } from '../../../components/navbar/navbar';
 import { ProfileService, ProfileData } from '../../../services/profile';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,6 @@ import { ProfileService, ProfileData } from '../../../services/profile';
 })
 export class Profile implements OnInit {
 
-  // بيانات اليوزر
   fullName = '';
   jobTitle = '';
   location = '';
@@ -32,47 +32,61 @@ export class Profile implements OnInit {
   phone = '';
   initials = '';
 
-  // حالة الـ loading والـ error
   isLoading = true;
   errorMessage = '';
-
   activeTab = 'personal-info';
 
-  constructor(private profileService: ProfileService) {}
+  constructor(
+  private profileService: ProfileService,
+  private authService: AuthService,
+  private cdr: ChangeDetectorRef
+) {}
 
   ngOnInit() {
-    this.loadProfile();
-  }
+  const firstName = localStorage.getItem('firstName') ?? '';
+  const lastName = localStorage.getItem('lastName') ?? '';
+  const email = localStorage.getItem('email') ?? '';
 
-  loadProfile() {
-    this.isLoading = true;
-    this.errorMessage = '';
+  console.log('firstName:', firstName);
+  console.log('lastName:', lastName);
 
-    this.profileService.getProfile().subscribe({
-      next: (data: ProfileData) => {
-        this.fullName = data.fullName;
-        this.jobTitle = data.jobTitle;
-        this.location = data.location;
-        this.email = data.email;
-        this.phone = data.phone;
-        this.initials = this.getInitials(data.fullName);
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error loading profile:', err);
-        this.errorMessage = 'Failed to load profile. Please try again.';
-        this.isLoading = false;
+  this.fullName = [firstName, lastName].filter(x => x).join(' ') || 'User';
+  this.initials = this.getInitials(this.fullName);
+  this.email = email;
+
+  this.loadProfile();
+}
+
+
+loadProfile() {
+  this.isLoading = true;
+
+  this.profileService.getProfile().subscribe({
+    next: (res: any) => {
+      try {
+        const data = res.data || res;
+        this.jobTitle = data?.jobTitle || data?.headline || '';
+        this.location = data?.city || data?.country || '';
+        this.phone = data?.phoneNumber || '';
+      } catch(e) {
+        console.error('Error parsing data:', e);
       }
-    });
-  }
+      this.isLoading = false;
+      this.cdr.detectChanges(); // ← ده هيخلي Angular يلاقي التغيير
+    },
+    error: (err) => {
+      console.log('ERROR:', err);
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .slice(0, 2)
-      .join('')
-      .toUpperCase();
+    if (!name || typeof name !== 'string') return '??';
+    const parts = name.trim().split(' ').filter(p => p.length > 0);
+    if (parts.length === 0) return '??';
+    return parts.slice(0, 2).map(n => n[0]).join('').toUpperCase();
   }
 
   onTabChange(tabId: string) {

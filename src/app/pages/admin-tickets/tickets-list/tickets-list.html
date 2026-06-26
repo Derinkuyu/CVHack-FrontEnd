@@ -14,7 +14,18 @@
   </button>
 </div>
 
-<div class="tickets-table-card">
+<!-- Loading -->
+<div class="tickets-loading" *ngIf="isLoading">
+  <p>Loading tickets...</p>
+</div>
+
+<!-- Empty -->
+<div class="tickets-empty" *ngIf="!isLoading && filteredTickets.length === 0">
+  <p>No tickets found.</p>
+</div>
+
+<!-- Table -->
+<div class="tickets-table-card" *ngIf="!isLoading && filteredTickets.length > 0">
   <table class="tickets-table">
     <thead>
       <tr>
@@ -30,10 +41,12 @@
         [class.tickets-table__row--active]="ticket.id === selectedTicketId"
         (click)="selectTicket(ticket)"
       >
-        <td class="tickets-table__id">{{ ticket.id }}</td>
+        <td class="tickets-table__id">T-{{ ticket.id }}</td>
         <td>
           <div class="tickets-table__subject">{{ ticket.subject }}</div>
-          <div class="tickets-table__meta">{{ ticket.user }} · {{ ticket.date }}</div>
+          <div class="tickets-table__meta">
+            {{ ticket.userName || ticket.userEmail }} · {{ formatDate(ticket.createdAt) }}
+          </div>
         </td>
         <td>
           <span [ngClass]="statusClass(ticket.status)">{{ ticket.status }}</span>

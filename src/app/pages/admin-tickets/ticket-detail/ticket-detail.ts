@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Ticket } from '../tickets-list/tickets-list';
+import { AdminTicket, AdminTicketsService } from '../../../services/admin-tickets';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -10,18 +10,53 @@ import { Ticket } from '../tickets-list/tickets-list';
   templateUrl: './ticket-detail.html',
   styleUrl: './ticket-detail.css'
 })
-export class TicketDetail {
-  @Input() ticket: Ticket | null = null;
-  @Input() priority: string = 'High';
-  @Input() category: string = 'Bug';
-  @Input() description: string = '';
+export class TicketDetail implements OnChanges {
+  @Input() ticket: AdminTicket | null = null;
 
   replyText = '';
+  selectedStatus = '';
+  isUpdating = false;
+  successMessage = '';
+
+  constructor(
+    private adminTicketsService: AdminTicketsService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['ticket'] && this.ticket) {
+      this.selectedStatus = this.ticket.status;
+      this.replyText = '';
+      this.successMessage = '';
+    }
+  }
+
+  updateStatus() {
+    if (!this.ticket || !this.selectedStatus) return;
+    this.isUpdating = true;
+
+    this.adminTicketsService.updateTicketStatus(this.ticket.id, this.selectedStatus).subscribe({
+      next: (res) => {
+        console.log('Status updated:', res);
+        this.successMessage = 'Status updated successfully!';
+        if (this.ticket) {
+          this.ticket = { ...this.ticket, status: this.selectedStatus as any };
+        }
+        this.isUpdating = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error updating status:', err);
+        this.isUpdating = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
   sendReply() {
     if (!this.replyText.trim()) return;
     console.log('Sending reply:', this.replyText);
-    // TODO: ربطها بالـ API لاحقًا
+    // TODO: ربط الـ reply بالـ API لو فيه endpoint
     this.replyText = '';
   }
 
