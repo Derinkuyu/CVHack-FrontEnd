@@ -9,5 +9,6 @@ export interface Job {
   salaryMin: number;
   salaryMax: number;
   matchScore: number;
-  description: string;
+  description: string;       
+  briefDescription: string;   
 }

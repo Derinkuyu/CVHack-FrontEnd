@@ -1,11 +1,11 @@
 export interface User {
-  id: number;
-  initials: string;
-  name: string;
+  id: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  role: 'User' | 'Admin' ;
-  plan: 'Free' | 'Pro' ;
-  status: 'Active' | 'Suspended';
-  joined: string;
+  roles: string[];
+  plan: string;     // 'Free' | 'Pro'
+  status: string;   // 'Active' | 'Suspended'
   searches: number;
+  createdAt: string;
 }
