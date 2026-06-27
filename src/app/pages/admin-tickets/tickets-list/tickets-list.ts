@@ -17,7 +17,7 @@ export class TicketsList implements OnInit {
   filteredTickets: AdminTicket[] = [];
   selectedTicketId: number | null = null;
 
-  filters = ['All', 'Open', 'In Progress', 'Resolved'];
+  filters = ['All', 'Open', 'In Progress', 'Closed'];
   activeFilter = 'All';
 
   isLoading = true;
@@ -70,8 +70,8 @@ export class TicketsList implements OnInit {
   }
 
   statusClass(status: string): string {
-    return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
-  }
+  return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
+}
 
   formatDate(dateStr: string): string {
     if (!dateStr) return '';

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../../services/profile';
@@ -10,11 +10,11 @@ import { ProfileService } from '../../../services/profile';
   templateUrl: './personal-info.html',
   styleUrl: './personal-info.css'
 })
-export class PersonalInfo implements OnInit {
+export class PersonalInfo implements OnChanges {
   @Input() fullName: string = '';
   @Input() email: string = '';
+  @Input() profileData: any = null;
 
-  // بيانات من الـ API
   phone = '';
   location = '';
   headline = '';
@@ -28,7 +28,6 @@ export class PersonalInfo implements OnInit {
   successMessage = '';
   errorMessage = '';
 
-  // نسخة مؤقتة للتعديل
   editData = {
     phone: '',
     city: '',
@@ -44,29 +43,20 @@ export class PersonalInfo implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-    this.loadProfile();
-  }
-
-  loadProfile() {
-    this.profileService.getProfile().subscribe({
-      next: (res: any) => {
-        const data = res?.data || res;
-        this.phone = data?.phoneNumber || '';
-        this.location = data?.city || '';
-        this.headline = data?.headline || '';
-        this.summary = data?.summary || '';
-        this.linkedInUrl = data?.linkedInUrl || '';
-        this.gitHubUrl = data?.gitHubUrl || '';
-        this.portfolioUrl = data?.portfolioUrl || '';
-        this.cdr.detectChanges();
-      },
-      error: (err) => console.error('Error loading profile:', err)
-    });
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['profileData'] && this.profileData) {
+      this.phone = this.profileData.phoneNumber || '';
+      this.location = this.profileData.city || '';
+      this.headline = this.profileData.headline || '';
+      this.summary = this.profileData.summary || '';
+      this.linkedInUrl = this.profileData.linkedInUrl || '';
+      this.gitHubUrl = this.profileData.gitHubUrl || '';
+      this.portfolioUrl = this.profileData.portfolioUrl || '';
+      this.cdr.detectChanges();
+    }
   }
 
   onEdit() {
-    // نسخي البيانات الحالية للـ edit form
     this.editData = {
       phone: this.phone,
       city: this.location,
@@ -100,15 +90,14 @@ export class PersonalInfo implements OnInit {
       portfolioUrl: this.editData.portfolioUrl
     } as any).subscribe({
       next: (res: any) => {
-        console.log('Profile updated:', res);
-        // حدّثي البيانات المعروضة
-        this.phone = this.editData.phone;
-        this.location = this.editData.city;
-        this.headline = this.editData.headline;
-        this.summary = this.editData.summary;
-        this.linkedInUrl = this.editData.linkedInUrl;
-        this.gitHubUrl = this.editData.gitHubUrl;
-        this.portfolioUrl = this.editData.portfolioUrl;
+        const data = res?.data;
+        this.phone = data?.phoneNumber || this.editData.phone || '';
+        this.location = data?.city || this.editData.city || '';
+        this.headline = data?.headline || this.editData.headline || '';
+        this.summary = data?.summary || this.editData.summary || '';
+        this.linkedInUrl = data?.linkedInUrl || this.editData.linkedInUrl || '';
+        this.gitHubUrl = data?.gitHubUrl || this.editData.gitHubUrl || '';
+        this.portfolioUrl = data?.portfolioUrl || this.editData.portfolioUrl || '';
 
         this.successMessage = 'Profile updated successfully!';
         this.isEditing = false;
@@ -116,7 +105,7 @@ export class PersonalInfo implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error updating profile:', err);
+        console.error('Error:', err);
         this.errorMessage = 'Failed to update profile. Please try again.';
         this.isSaving = false;
         this.cdr.detectChanges();

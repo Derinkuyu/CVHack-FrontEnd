@@ -41,13 +41,13 @@
         [class.tickets-table__row--active]="ticket.id === selectedTicketId"
         (click)="selectTicket(ticket)"
       >
-        <td class="tickets-table__id">T-{{ ticket.id }}</td>
-        <td>
-          <div class="tickets-table__subject">{{ ticket.subject }}</div>
-          <div class="tickets-table__meta">
-            {{ ticket.userName || ticket.userEmail }} · {{ formatDate(ticket.createdAt) }}
-          </div>
-        </td>
+      <td class="tickets-table__id">{{ ticket.id }}</td>
+<td>
+  <div class="tickets-table__subject">{{ ticket.subject }}</div>
+  <div class="tickets-table__meta">
+    {{ ticket.userName || ticket.email }} · {{ formatDate(ticket.createdAt || '') }}
+  </div>
+</td>
         <td>
           <span [ngClass]="statusClass(ticket.status)">{{ ticket.status }}</span>
         </td>

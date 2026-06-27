@@ -8,7 +8,7 @@
   <ng-container *ngIf="!isEditing">
     <div class="info-card__header">
       <h3 class="info-card__title">Personal Information</h3>
-      <button class="info-card__edit-btn" (click)="isEditing = true">✏ Edit</button>
+      <button class="info-card__edit-btn" (click)="onEdit()">✏ Edit</button>
     </div>
 
     <div class="info-card__grid">

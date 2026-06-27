@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TicketsList } from './tickets-list/tickets-list';
 import { TicketDetail } from './ticket-detail/ticket-detail';
@@ -13,9 +13,17 @@ import { AdminSidebar } from '../../components/admin-sidebar/admin-sidebar';
   styleUrl: './admin-tickets.css'
 })
 export class AdminTickets {
+  @ViewChild(TicketsList) ticketsListComponent!: TicketsList;
+
   selectedTicket: AdminTicket | null = null;
 
   onTicketSelect(ticket: AdminTicket) {
     this.selectedTicket = ticket;
+  }
+
+  onStatusUpdated() {
+    if (this.ticketsListComponent) {
+      this.ticketsListComponent.loadTickets();
+    }
   }
 }

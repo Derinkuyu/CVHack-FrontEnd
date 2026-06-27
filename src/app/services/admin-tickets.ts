@@ -5,14 +5,14 @@ import { environment } from '../../environments/environment';
 
 export interface AdminTicket {
   id: number;
+  userName?: string;
+  email?: string;
   subject: string;
-  description: string;
-  category: string;
+  description?: string;
+  category?: string;
   status: 'Open' | 'In Progress' | 'Resolved';
   priority?: string;
-  createdAt: string;
-  userName?: string;
-  userEmail?: string;
+  createdAt?: string;
 }
 
 export interface ApiResponse<T> {
@@ -41,10 +41,10 @@ export class AdminTicketsService {
     );
   }
 
-  updateTicketStatus(id: number, status: string): Observable<ApiResponse<any>> {
-    return this.http.put<ApiResponse<any>>(
-      `${this.apiUrl}/admin/tickets/${id}/status`,
-      { status }
-    );
-  }
+  updateTicketStatus(id: number, status: string, reply?: string): Observable<ApiResponse<any>> {
+  return this.http.put<ApiResponse<any>>(
+    `${this.apiUrl}/admin/tickets/${id}/status`,
+    { status, reply: reply || null }
+  );
+}
 }

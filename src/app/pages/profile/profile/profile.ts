@@ -31,6 +31,7 @@ export class Profile implements OnInit {
   email = '';
   phone = '';
   initials = '';
+  rawProfileData: any = null;
 
   isLoading = true;
   errorMessage = '';
@@ -65,6 +66,7 @@ loadProfile() {
     next: (res: any) => {
       try {
         const data = res.data || res;
+        this.rawProfileData = data;
         this.jobTitle = data?.jobTitle || data?.headline || '';
         this.location = data?.city || data?.country || '';
         this.phone = data?.phoneNumber || '';
@@ -72,7 +74,7 @@ loadProfile() {
         console.error('Error parsing data:', e);
       }
       this.isLoading = false;
-      this.cdr.detectChanges(); // ← ده هيخلي Angular يلاقي التغيير
+      this.cdr.detectChanges(); 
     },
     error: (err) => {
       console.log('ERROR:', err);

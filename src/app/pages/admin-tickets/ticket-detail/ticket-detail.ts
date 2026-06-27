@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminTicket, AdminTicketsService } from '../../../services/admin-tickets';
@@ -31,36 +31,48 @@ export class TicketDetail implements OnChanges {
     }
   }
 
-  updateStatus() {
-    if (!this.ticket || !this.selectedStatus) return;
-    this.isUpdating = true;
+  @Output() statusUpdated = new EventEmitter<void>();
 
-    this.adminTicketsService.updateTicketStatus(this.ticket.id, this.selectedStatus).subscribe({
-      next: (res) => {
-        console.log('Status updated:', res);
-        this.successMessage = 'Status updated successfully!';
-        if (this.ticket) {
-          this.ticket = { ...this.ticket, status: this.selectedStatus as any };
-        }
-        this.isUpdating = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error updating status:', err);
-        this.isUpdating = false;
-        this.cdr.detectChanges();
-      }
-    });
-  }
-
-  sendReply() {
-    if (!this.replyText.trim()) return;
-    console.log('Sending reply:', this.replyText);
-    // TODO: ربط الـ reply بالـ API لو فيه endpoint
+onSendReply() {
+  if (!this.replyText.trim()) return;
+  
+  // بعتي الـ status والـ reply مع بعض
+  this.updateStatus();
+  
+  setTimeout(() => {
     this.replyText = '';
-  }
+    this.cdr.detectChanges();
+  }, 500);
+}
+
+updateStatus() {
+  if (!this.ticket || !this.selectedStatus || !this.replyText.trim()) return;
+  this.isUpdating = true;
+
+  this.adminTicketsService.updateTicketStatus(
+    this.ticket.id,
+    this.selectedStatus,
+    this.replyText
+  ).subscribe({
+    next: (res) => {
+      console.log('Status updated:', res);
+      this.successMessage = 'Status updated successfully!';
+      if (this.ticket) {
+        this.ticket = { ...this.ticket, status: this.selectedStatus as any };
+      }
+      this.isUpdating = false;
+      this.statusUpdated.emit();
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Error details:', err.error);
+      this.isUpdating = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   statusClass(status: string): string {
-    return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
-  }
+  return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
+}
 }

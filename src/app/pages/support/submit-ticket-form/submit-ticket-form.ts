@@ -17,7 +17,7 @@ export class SubmitTicketForm {
   category = 'Technical issue';
   description = '';
 
-  categories = ['Technical issue', 'Billing', 'Feature request', 'Account', 'Other'];
+  categories = ['Technical issue', 'Billing', 'Feature request', 'Account','bug', 'Other'];
 
   isSubmitting = false;
   successMessage = '';
@@ -46,7 +46,7 @@ export class SubmitTicketForm {
         this.description = '';
         this.category = 'Technical issue';
         this.isSubmitting = false;
-        this.ticketSubmitted.emit(); // عشان الـ my-tickets يعمل refresh
+        this.ticketSubmitted.emit(); 
       },
       error: (err) => {
         console.error('Error submitting ticket:', err);
