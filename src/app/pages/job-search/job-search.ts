@@ -21,7 +21,7 @@ export class JobSearch implements OnInit {
   isLoading = signal(true);
   errorMessage = signal('');
   currentFilters: JobFilters | null = null;
-
+  showFilters = signal(false);
   searchTerm = signal('');
 
   onSearchChange(term: string) {

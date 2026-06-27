@@ -1,12 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { JobCard } from '../job-card/job-card';
 import { FormsModule } from '@angular/forms';
 import type { Job } from '../../models/job.model';
 import { JobFilters } from '../../models/job-filters.model';
+import { FilterIcon } from '../../assets/filter-icon/filter-icon';
 
 @Component({
   selector: 'app-job-cards-container',
-  imports: [JobCard, FormsModule],
+  imports: [JobCard, FormsModule,FilterIcon],
   templateUrl: './job-cards-container.html',
   styleUrl: './job-cards-container.css',
 })
@@ -14,6 +15,7 @@ export class JobCardsContainer {
   @Input() activeFilters: JobFilters | null = null;
   @Input() jobs: Job[] = [];
   @Input() searchTerm = '';
+  @Output() openFilters = new EventEmitter<void>();
 
   sortOptions = ['Best match', 'Most recent', 'Highest salary'];
   selectedSort = 'Best match';
