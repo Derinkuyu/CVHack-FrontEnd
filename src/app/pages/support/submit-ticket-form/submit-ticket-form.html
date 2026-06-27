@@ -42,12 +42,12 @@
       ></textarea>
     </div>
 
-    <button
-      type="submit"
-      class="ticket-form-card__submit-btn"
-      [disabled]="isSubmitting || !subject.trim() || !description.trim()"
-    >
-      {{ isSubmitting ? 'Submitting...' : '➤ Submit ticket' }}
-    </button>
+   <button
+  type="submit"
+  class="ticket-form-card__submit-btn"
+  [disabled]="isSubmitting || !subject.trim() || !category || !description.trim()"
+>
+  {{ isSubmitting ? 'Submitting...' : '➤ Submit ticket' }}
+</button>
   </form>
 </div>

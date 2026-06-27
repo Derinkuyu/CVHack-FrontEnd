@@ -31,11 +31,6 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.experience-card__add-btn:hover {
-  opacity: 0.85;
 }
 
 .experience-card__list {
@@ -53,7 +48,6 @@
 
 .experience-item:last-child {
   border-bottom: none;
-  padding-bottom: 0;
 }
 
 .experience-item__icon {
@@ -92,22 +86,119 @@
   line-height: 1.5;
 }
 
+.experience-item__actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.experience-item__edit,
 .experience-item__delete {
-  background-color: var(--surface2);
-  border: 1px solid var(--border2);
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
-  width: 36px;
-  height: 36px;
+  border: 1px solid var(--border2);
+  background-color: var(--surface2);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  color: var(--muted);
-  flex-shrink: 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 14px;
 }
 
 .experience-item__delete:hover {
   background-color: var(--redSoft);
   color: var(--red);
+  border-color: var(--red);
+}
+
+.experience-form {
+  margin-top: 16px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--surface2);
+}
+
+.experience-form__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 16px;
+}
+
+.experience-form__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.experience-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.experience-form__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--faint);
+  text-transform: uppercase;
+}
+
+.experience-form__input,
+.experience-form__textarea {
+  padding: 8px 12px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background-color: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font-body);
+}
+
+.experience-form__textarea {
+  min-height: 80px;
+  resize: vertical;
+  margin-bottom: 12px;
+}
+
+.experience-form__input:focus,
+.experience-form__textarea:focus {
+  outline: none;
+  border-color: var(--copper);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+.experience-form__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.experience-form__cancel {
+  background-color: var(--surface);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.experience-form__save {
+  background-color: var(--copper);
+  border: none;
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.experience-form__save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

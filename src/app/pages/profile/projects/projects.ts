@@ -1,38 +1,113 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface ProjectItem {
-  name: string;
-  description: string;
-  tags: string[];
-}
+import { FormsModule } from '@angular/forms';
+import { ProjectsService, ProjectItem } from '../../../services/projects';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './projects.html',
   styleUrl: './projects.css'
 })
-export class Projects {
-  projectsList: ProjectItem[] = [
-    {
-      name: 'E-Commerce Dashboard',
-      description: 'A full-featured admin dashboard with analytics, order management, and inventory tracking.',
-      tags: ['React', 'TypeScript', 'Tailwind']
-    },
-    {
-      name: 'Job Portal Platform',
-      description: 'A platform connecting job seekers with employers, featuring AI-based job matching.',
-      tags: ['Angular', '.NET', 'SQL Server']
-    }
-  ];
+export class Projects implements OnInit {
+  projectsList: ProjectItem[] = [];
+  isLoading = true;
+  showForm = false;
+  isSaving = false;
 
-  addProject() {
-    console.log('Add project clicked');
+  formData: ProjectItem = {
+    title: '',
+    description: null,
+    githubUrl: null
+  };
+
+  editingId: string | null = null;
+
+  constructor(
+    private projectsService: ProjectsService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    this.loadProjects();
   }
 
-  removeProject(index: number) {
-    this.projectsList.splice(index, 1);
+  loadProjects() {
+    this.isLoading = true;
+    this.projectsService.getProjects().subscribe({
+      next: (res: any) => {
+        console.log('Projects:', res);
+        this.projectsList = res?.data || res || [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        this.projectsList = [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  openAddForm() {
+    this.editingId = null;
+    this.formData = { title: '', description: null, githubUrl: null };
+    this.showForm = true;
+  }
+
+  openEditForm(item: ProjectItem) {
+    this.editingId = item.id || null;
+    this.formData = { ...item };
+    this.showForm = true;
+  }
+
+  onCancel() {
+    this.showForm = false;
+    this.editingId = null;
+  }
+
+  onSave() {
+    if (!this.formData.title) return;
+    this.isSaving = true;
+
+    if (this.editingId) {
+      this.projectsService.updateProject(this.editingId, this.formData).subscribe({
+        next: () => {
+          this.loadProjects();
+          this.showForm = false;
+          this.isSaving = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          this.isSaving = false;
+        }
+      });
+    } else {
+      this.projectsService.addProject(this.formData).subscribe({
+        next: () => {
+          this.loadProjects();
+          this.showForm = false;
+          this.isSaving = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          this.isSaving = false;
+        }
+      });
+    }
+  }
+
+  deleteProject(id: string) {
+    this.projectsService.deleteProject(id).subscribe({
+      next: () => {
+        this.projectsList = this.projectsList.filter(p => p.id !== id);
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error:', err)
+    });
   }
 }

@@ -73,3 +73,13 @@
 .ticket-form-card__submit-btn:hover {
   background-color: var(--copperHover);
 }
+.ticket-form-card__submit-btn:disabled {
+  background-color: var(--border2);
+  color: var(--faint);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.ticket-form-card__submit-btn:disabled:hover {
+  background-color: var(--border2);
+}

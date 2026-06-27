@@ -22,25 +22,20 @@ export class SkillsService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  searchSkills(query: string): Observable<Skill[]> {
-    return this.http.get<Skill[]>(`${this.apiUrl}/skills?search=${query}`);
-  }
+  searchSkills(query: string): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/Skills?search=${query}`);
+}
 
-  getProfileSkills(): Observable<Skill[]> {
-    return this.http.get<Skill[]>(`${this.apiUrl}/profile/skills`, {
-      headers: this.getHeaders()
-    });
-  }
+getProfileSkills(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/profile/skills`);
+}
 
-  addSkill(skillId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/profile/skills/${skillId}`, {}, {
-      headers: this.getHeaders()
-    });
-  }
+addSkill(skillId: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/profile/skills/${skillId}`, {});
+}
 
-  removeSkill(skillId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/profile/skills/${skillId}`, {
-      headers: this.getHeaders()
-    });
+removeSkill(skillId: string): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/profile/skills/${skillId}`);
+
   }
 }
