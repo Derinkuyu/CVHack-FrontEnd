@@ -13,7 +13,7 @@ import { JobFilters } from '../../models/job-filters.model';
 export class JobCardsContainer {
   @Input() activeFilters: JobFilters | null = null;
   @Input() jobs: Job[] = [];
-  
+
   sortOptions = ['Best match', 'Most recent', 'Highest salary'];
   selectedSort = 'Best match';
 
@@ -171,10 +171,11 @@ export class JobCardsContainer {
     const f = this.activeFilters;
 
     return this.jobs.filter(job =>
-      (!f.country || job.location.includes(f.country) || job.location === 'Remote') &&
-      (!f.city || job.location.includes(f.city)) &&
-      (f.workType.length === 0 || f.workType.some(w => job.tags.includes(w))) &&
-      (f.seniority.length === 0 || f.seniority.some(s => job.tags.includes(s))) &&
+      (!f.country || job.country === f.country) &&
+      (!f.city || job.city === f.city) &&
+      (f.workType.length === 0 || f.workType.includes(job.workType)) &&
+      (f.employment.length === 0 || f.employment.includes(job.workTime)) &&   // add
+      (f.seniority.length === 0 || f.seniority.includes(job.seniority)) &&
       (job.salaryMax >= f.minSalary) &&
       (f.datePosted === 'Any time' || this.parsePostedAgo(job.postedAgo) <= this.dateLimits[f.datePosted])
     );
