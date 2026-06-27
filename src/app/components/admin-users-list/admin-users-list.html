@@ -4,12 +4,12 @@
 >
   <!-- Table header (sticky) -->
   <div
-    class="grid grid-cols-6 px-6 py-3 border-b text-xs font-semibold tracking-widest uppercase sticky top-0"
+    class="sm:grid grid-cols-6 px-6 py-3 border-b text-xs font-semibold tracking-widest uppercase sticky top-0"
     style="border-color: var(--border); color: var(--muted); background: var(--surface)"
   >
     <span class="col-span-4">User</span>
-    <span class="col-span-1 justify-self-center">Plan</span>
-    <span class="col-span-1 justify-self-center">Status</span>
+    <span class="col-span-1 justify-self-center hidden sm:inline">Plan</span>
+    <span class="col-span-1 justify-self-center hidden sm:inline">Status</span>
   </div>
 
   <!-- Scrollable rows -->
@@ -17,7 +17,7 @@
     @for (user of users; track user.id) {
       <div
         (click)="select(user)"
-        class="grid grid-cols-6 items-center px-6 py-4 cursor-pointer border-b last:border-b-0 transition-colors"
+        class="sm:grid grid-cols-6 items-center px-6 py-4 cursor-pointer border-b last:border-b-0 transition-colors"
         [style.background]="user.id === selectedUserId ? 'var(--surface2)' : 'transparent'"
         style="border-color: var(--border)"
       >
@@ -39,13 +39,13 @@
 
         <!-- Plan -->
         <span
-          class="text-sm font-semibold justify-self-center col-span-1"
+          class="text-sm font-semibold justify-self-center col-span-1 hidden sm:inline"
           style="color: var(--copper)"
           >{{ user.plan || 'Free' }}</span
         >
 
         <!-- Status -->
-        <span class="col-span-1 justify-self-center">
+        <span class="col-span-1 justify-self-center hidden sm:inline">
           @if (user.status === 'Active') {
             <span
               class="px-3 py-1 rounded-full text-xs font-semibold w-fit"
