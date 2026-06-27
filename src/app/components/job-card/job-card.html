@@ -1,5 +1,6 @@
 <div
-  class="flex rounded-2xl border  transition-shadow hover:shadow-md"
+  [routerLink]="['/jobs', job.id]"
+  class="flex rounded-2xl border transition-shadow hover:shadow-md cursor-pointer"
   style="background: var(--surface); border-color: var(--border); box-shadow: var(--shadow)"
 >
   <!-- Copper strip (only if score >= 80) -->
