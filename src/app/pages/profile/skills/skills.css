@@ -20,6 +20,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 16px;
+  min-height: 32px;
 }
 
 .skill-tag {
@@ -38,10 +39,12 @@
   background: none;
   border: none;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
   line-height: 1;
   padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 .skill-tag__remove:hover {
@@ -51,6 +54,7 @@
 .skills-card__add {
   display: flex;
   gap: 10px;
+  position: relative;
 }
 
 .skills-card__input {
@@ -70,21 +74,28 @@
   box-shadow: 0 0 0 3px var(--ring);
 }
 
-.skills-card__add-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background-color: var(--copper);
-  color: var(--white);
-  border: none;
-  padding: 10px 18px;
+.skills-card__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-.skills-card__add-btn:hover {
-  background-color: var(--copperHover);
+.skills-card__dropdown-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.skills-card__dropdown-item:hover {
+  background-color: var(--surface2);
 }

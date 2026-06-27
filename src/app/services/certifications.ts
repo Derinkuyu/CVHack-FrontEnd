@@ -6,8 +6,9 @@ import { environment } from '../../environments/environment';
 export interface CertificationItem {
   id?: string;
   name: string;
-  issuer: string;
-  year: string;
+  provider?: string | null;
+  credentialUrl?: string | null;
+  certifiedAt?: string | null;
 }
 
 @Injectable({
@@ -23,27 +24,19 @@ export class CertificationsService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  getCertifications(): Observable<CertificationItem[]> {
-    return this.http.get<CertificationItem[]>(`${this.apiUrl}/profile/certifications`, {
-      headers: this.getHeaders()
-    });
-  }
+  getCertifications(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/profile/certifications`);
+}
 
-  addCertification(data: CertificationItem): Observable<CertificationItem> {
-    return this.http.post<CertificationItem>(`${this.apiUrl}/profile/certifications`, data, {
-      headers: this.getHeaders()
-    });
-  }
+addCertification(data: CertificationItem): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/profile/certifications`, data);
+}
 
-  updateCertification(id: string, data: CertificationItem): Observable<CertificationItem> {
-    return this.http.put<CertificationItem>(`${this.apiUrl}/profile/certifications/${id}`, data, {
-      headers: this.getHeaders()
-    });
-  }
+updateCertification(id: string, data: CertificationItem): Observable<any> {
+  return this.http.put<any>(`${this.apiUrl}/profile/certifications/${id}`, data);
+}
 
-  deleteCertification(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/profile/certifications/${id}`, {
-      headers: this.getHeaders()
-    });
-  }
+deleteCertification(id: string): Observable<any> {
+  return this.http.delete<any>(`${this.apiUrl}/profile/certifications/${id}`);
+}
 }

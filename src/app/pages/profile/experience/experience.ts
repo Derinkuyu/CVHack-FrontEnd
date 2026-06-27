@@ -1,44 +1,123 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface ExperienceItem {
-  title: string;
-  company: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-}
+import { FormsModule } from '@angular/forms';
+import { ExperienceService, ExperienceItem } from '../../../services/experience';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './experience.html',
   styleUrl: './experience.css'
 })
-export class Experience {
-  experienceList: ExperienceItem[] = [
-    {
-      title: 'Senior Frontend Engineer',
-      company: 'TechCorp',
-      startDate: '2022',
-      endDate: 'Present',
-      description: 'Leading the frontend team in building scalable web applications using React and TypeScript.'
-    },
-    {
-      title: 'Frontend Developer',
-      company: 'WebSolutions',
-      startDate: '2019',
-      endDate: '2022',
-      description: 'Built and maintained client-facing dashboards and component libraries.'
-    }
-  ];
+export class Experience implements OnInit {
+  experienceList: ExperienceItem[] = [];
+  isLoading = true;
+  showForm = false;
+  isSaving = false;
 
-  addExperience() {
-    console.log('Add experience clicked');
+  formData: ExperienceItem = {
+    title: '',
+    company: '',
+    startDate: '',
+    endDate: '',
+    description: ''
+  };
+
+  editingId: string | null = null;
+
+  constructor(
+    private experienceService: ExperienceService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    this.loadExperience();
   }
 
-  removeExperience(index: number) {
-    this.experienceList.splice(index, 1);
+  loadExperience() {
+    this.isLoading = true;
+    this.experienceService.getExperience().subscribe({
+      next: (res: any) => {
+        console.log('Experience:', res);
+        this.experienceList = res?.data || res || [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        this.experienceList = [];
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  openAddForm() {
+    this.editingId = null;
+    this.formData = {
+      title: '',
+      company: '',
+      startDate: '',
+      endDate: '',
+      description: ''
+    };
+    this.showForm = true;
+  }
+
+  openEditForm(item: ExperienceItem) {
+    this.editingId = item.id || null;
+    this.formData = { ...item };
+    this.showForm = true;
+  }
+
+  onCancel() {
+    this.showForm = false;
+    this.editingId = null;
+  }
+
+  onSave() {
+    if (!this.formData.title || !this.formData.company) return;
+    this.isSaving = true;
+
+    if (this.editingId) {
+      this.experienceService.updateExperience(this.editingId, this.formData).subscribe({
+        next: (res: any) => {
+          console.log('Updated:', res);
+          this.loadExperience();
+          this.showForm = false;
+          this.isSaving = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          this.isSaving = false;
+        }
+      });
+    } else {
+      this.experienceService.addExperience(this.formData).subscribe({
+        next: (res: any) => {
+          console.log('Added:', res);
+          this.loadExperience();
+          this.showForm = false;
+          this.isSaving = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          this.isSaving = false;
+        }
+      });
+    }
+  }
+
+  deleteExperience(id: string) {
+    this.experienceService.deleteExperience(id).subscribe({
+      next: () => {
+        this.experienceList = this.experienceList.filter(e => e.id !== id);
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error:', err)
+    });
   }
 }

@@ -5,10 +5,11 @@ import { environment } from '../../environments/environment';
 
 export interface EducationItem {
   id?: string;
-  degree: string;
-  institution: string;
-  startYear: string;
-  endYear: string;
+  university?: string;
+  degree?: string;
+  startYear?: number | null;
+  endYear?: number | null;
+  grade?: string | null;
 }
 
 @Injectable({
@@ -24,27 +25,19 @@ export class EducationService {
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  getEducation(): Observable<EducationItem[]> {
-    return this.http.get<EducationItem[]>(`${this.apiUrl}/profile/education`, {
-      headers: this.getHeaders()
-    });
-  }
-
-  addEducation(data: EducationItem): Observable<EducationItem> {
-    return this.http.post<EducationItem>(`${this.apiUrl}/profile/education`, data, {
-      headers: this.getHeaders()
-    });
-  }
-
-  updateEducation(id: string, data: EducationItem): Observable<EducationItem> {
-    return this.http.put<EducationItem>(`${this.apiUrl}/profile/education/${id}`, data, {
-      headers: this.getHeaders()
-    });
-  }
-
-  deleteEducation(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/profile/education/${id}`, {
-      headers: this.getHeaders()
-    });
-  }
+  getEducation(): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/profile/education`);
 }
+
+addEducation(data: EducationItem): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/profile/education`, data);
+}
+
+updateEducation(id: string, data: EducationItem): Observable<any> {
+  return this.http.put<any>(`${this.apiUrl}/profile/education/${id}`, data);
+}
+
+deleteEducation(id: string): Observable<any> {
+  return this.http.delete<any>(`${this.apiUrl}/profile/education/${id}`);
+}
+  }

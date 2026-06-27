@@ -12,8 +12,8 @@ export interface TicketPayload {
 export interface SupportTicket {
   id: number;
   subject: string;
-  category: string;
-  description: string;
+  category?: string;
+  description?: string;
   status: 'Open' | 'In Progress' | 'Resolved';
   createdAt: string;
 }
