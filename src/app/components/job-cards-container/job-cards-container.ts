@@ -13,6 +13,7 @@ import { JobFilters } from '../../models/job-filters.model';
 export class JobCardsContainer {
   @Input() activeFilters: JobFilters | null = null;
   @Input() jobs: Job[] = [];
+  @Input() searchTerm = '';
 
   sortOptions = ['Best match', 'Most recent', 'Highest salary'];
   selectedSort = 'Best match';
@@ -166,19 +167,34 @@ export class JobCardsContainer {
   //   },
   // ];
 
+
   get filteredJobs(): Job[] {
-    if (!this.activeFilters) return this.jobs;
+    const term = this.searchTerm.trim().toLowerCase();
     const f = this.activeFilters;
 
-    return this.jobs.filter(job =>
-      (!f.country || job.country === f.country) &&
-      (!f.city || job.city === f.city) &&
-      (f.workType.length === 0 || f.workType.includes(job.workType)) &&
-      (f.employment.length === 0 || f.employment.includes(job.workTime)) &&   // add
-      (f.seniority.length === 0 || f.seniority.includes(job.seniority)) &&
-      (job.salaryMax >= f.minSalary) &&
-      (f.datePosted === 'Any time' || this.parsePostedAgo(job.postedAgo) <= this.dateLimits[f.datePosted])
-    );
+    return this.jobs.filter((job) => {
+      // text search
+      const matchesSearch =
+        !term ||
+        job.title.toLowerCase().includes(term) ||
+        job.company.toLowerCase().includes(term) ||
+        job.location.toLowerCase().includes(term) ||
+        job.tags.some((t) => t.toLowerCase().includes(term));
+      if (!matchesSearch) return false;
+
+      // sidebar filters
+      if (!f) return true;
+      return (
+        (!f.country || job.country === f.country) &&
+        (!f.city || job.city === f.city) &&
+        (f.workType.length === 0 || f.workType.includes(job.workType)) &&
+        (f.employment.length === 0 || f.employment.includes(job.workTime)) &&
+        (f.seniority.length === 0 || f.seniority.includes(job.seniority)) &&
+        job.salaryMax >= f.minSalary &&
+        (f.datePosted === 'Any time' ||
+          this.parsePostedAgo(job.postedAgo) <= this.dateLimits[f.datePosted])
+      );
+    });
   }
 
   get sortedJobs(): Job[] {

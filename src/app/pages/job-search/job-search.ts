@@ -22,6 +22,12 @@ export class JobSearch implements OnInit {
   errorMessage = signal('');
   currentFilters: JobFilters | null = null;
 
+  searchTerm = signal('');
+
+  onSearchChange(term: string) {
+    this.searchTerm.set(term);
+  }
+  
   ngOnInit() {
     this.jobsService.getJobs().subscribe({
       next: (jobs) => { this.jobs.set(jobs); this.isLoading.set(false); },

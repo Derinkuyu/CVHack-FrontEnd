@@ -8,11 +8,10 @@ import { DashboardIcon } from '../../assets/dashboard-icon/dashboard-icon';
 import { AuthService } from '../../services/auth.service';
 import { LogoutIcon } from "../../assets/logout-icon/logout-icon";
 import { AdminThemeToggle } from '../admin-theme-toggle/admin-theme-toggle';
-import { AdminSidebarExpandIcon } from "../../assets/admin-sidebar-expand-icon/admin-sidebar-expand-icon";
 
 @Component({
   selector: 'app-admin-sidebar',
-  imports: [AdminThemeToggle, Logo, TicketIcon, UsersIcon, RouterLink, BackIcon, RouterLinkActive, DashboardIcon, LogoutIcon, AdminSidebarExpandIcon],
+  imports: [AdminThemeToggle, Logo, TicketIcon, UsersIcon, RouterLink, BackIcon, RouterLinkActive, DashboardIcon, LogoutIcon],
   templateUrl: './admin-sidebar.html',
   styleUrl: './admin-sidebar.css',
 })

@@ -13,6 +13,7 @@
     <app-magnifying-glass-icon></app-magnifying-glass-icon>
     <input
       type="text"
+      (input)="onSearch($event)"
       placeholder="Search roles, companies, locations..."
       class="bg-transparent text-sm outline-none w-full"
       style="color: var(--text)"
