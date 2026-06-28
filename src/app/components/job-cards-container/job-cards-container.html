@@ -1,6 +1,5 @@
 <div class="flex flex-col gap-4 px-4 py-1 h-full min-h-0">
-  <div class="flex items-center justify-between shrink-0">
-    <!-- Left: Title + subtitle -->
+  <div class="flex flex-wrap items-center justify-between gap-3 shrink-0">
     <div>
       <h2 class="text-xl font-bold" style="color: var(--text); font-family: var(--font-display)">
         Recommended jobs
@@ -11,20 +10,31 @@
       </p>
     </div>
 
-    <!-- Right: Sort dropdown -->
-    <select
-      [(ngModel)]="selectedSort"
-      class="text-sm px-4 py-2 rounded-xl border outline-none cursor-pointer"
-      style="background: var(--surface); border-color: var(--border2); color: var(--text)"
-    >
-      @for (opt of sortOptions; track opt) {
-        <option [value]="opt">{{ opt }}</option>
-      }
-    </select>
+    <div class="flex items-center gap-3">
+      <!-- Filters button: sm only -->
+      <button
+        (click)="openFilters.emit()"
+        class="md:hidden flex items-center gap-2 text-sm px-4 py-2 rounded-xl border"
+        style="background: var(--surface); border-color: var(--border2); color: var(--text)"
+      >
+        <app-filter-icon></app-filter-icon>
+        Filters
+      </button>
+
+      <select
+        [(ngModel)]="selectedSort"
+        class="text-sm px-4 py-2 rounded-xl border outline-none cursor-pointer"
+        style="background: var(--surface); border-color: var(--border2); color: var(--text)"
+      >
+        @for (opt of sortOptions; track opt) {
+          <option [value]="opt">{{ opt }}</option>
+        }
+      </select>
+    </div>
   </div>
 
   <!-- show job cards -->
-  <div class="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto scroll-area pr-2 ">
+  <div class="flex flex-col gap-4 flex-1 min-h-0 overflow-y-auto scroll-area pr-2">
     @for (job of sortedJobs; track job.id) {
       <app-job-card [job]="job" />
     }

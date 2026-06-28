@@ -19,19 +19,14 @@ export class RegisterForm {
   email = '';
   password = '';
   confirmPassword = '';
-  title = '';
-  seniority = '';
-  phone = '';
 
   showPassword = false;
   showConfirmPassword = false;
 
+  @Output() submitted = new EventEmitter<RegisterPayload>();
+
   loading = input(false);
   serverError = input('');
-
-  seniorityLevels = ['Junior', 'Mid-level', 'Senior', 'Lead', 'Executive'];
-
-  @Output() submitted = new EventEmitter<RegisterPayload>();
 
   get passwordsMatch(): boolean {
     return this.confirmPassword.length === 0 || this.password === this.confirmPassword;
@@ -82,10 +77,11 @@ export class RegisterForm {
   }
 
   get isEmailValid(): boolean {
-    if (this.email.length === 0) return true; // don't show error before they've typed anything
+    if (this.email.length === 0) return true; // don't show error before they've typed
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(this.email);
   }
+
   get isPasswordValid(): boolean {
     const pw = this.password;
     return (
@@ -104,9 +100,7 @@ export class RegisterForm {
       this.email.trim().length > 0 &&
       this.isEmailValid &&
       this.isPasswordValid &&
-      this.password === this.confirmPassword &&
-      this.title.trim().length > 0 &&
-      this.seniority.trim().length > 0
+      this.password === this.confirmPassword
     );
   }
 
@@ -125,9 +119,6 @@ export class RegisterForm {
       lastName: this.lastName,
       email: this.email,
       password: this.password,
-      title: this.title,
-      seniority: this.seniority,
-      phone: this.phone || undefined,
     });
   }
 }

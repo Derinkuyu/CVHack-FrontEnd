@@ -219,7 +219,7 @@
     [disabled]="!canSubmit"
     class="w-full py-3.5 rounded-xl text-sm font-semibold mb-5 transition-opacity"
     [style.background]="canSubmit ? 'var(--teal)' : 'var(--surface2)'"
-    [style.color]="canSubmit ? 'var(--surface)' : 'var(--faint)'"
+    [style.color]="canSubmit ? 'var(--white)' : 'var(--faint)'"
     [style.cursor]="canSubmit ? 'pointer' : 'not-allowed'"
   >
     {{ loading() ? 'Creating account...' : 'Create account' }}

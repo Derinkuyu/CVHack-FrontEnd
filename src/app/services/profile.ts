@@ -1,38 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface ProfileData {
-  fullName: string;
-  jobTitle: string;
-  location: string;
-  email: string;
-  phone: string;
+  id?: number;
+  userId?: string;
+  headline?: string;
+  jobTitle?: string;
+  city?: string;
+  country?: string;
+  phoneNumber?: string;
+  summary?: string;
+  gitHubUrl?: string;
+  linkedInUrl?: string;
+  portfolioUrl?: string;
+  certifications?: any[];
+  educations?: any[];
+  experiences?: any[];
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ProfileService {
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  getProfile(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/profile`);
   }
 
-  getProfile(): Observable<ProfileData> {
-    return this.http.get<ProfileData>(`${this.apiUrl}/profile`, {
-      headers: this.getHeaders()
-    });
-  }
-
-  updateProfile(data: Partial<ProfileData>): Observable<ProfileData> {
-    return this.http.put<ProfileData>(`${this.apiUrl}/profile`, data, {
-      headers: this.getHeaders()
-    });
+  updateProfile(data: Partial<ProfileData>): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/profile`, data);
   }
 }

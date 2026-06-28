@@ -1,22 +1,115 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ProfileService } from '../../../services/profile';
 
 @Component({
   selector: 'app-personal-info',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './personal-info.html',
   styleUrl: './personal-info.css'
 })
-export class PersonalInfo {
+export class PersonalInfo implements OnChanges {
   @Input() fullName: string = '';
   @Input() email: string = '';
-  @Input() phone: string = '';
-  @Input() location: string = '';
+  @Input() profileData: any = null;
+
+  phone = '';
+  location = '';
+  headline = '';
+  summary = '';
+  linkedInUrl = '';
+  gitHubUrl = '';
+  portfolioUrl = '';
 
   isEditing = false;
+  isSaving = false;
+  successMessage = '';
+  errorMessage = '';
+
+  editData = {
+    phone: '',
+    city: '',
+    headline: '',
+    summary: '',
+    linkedInUrl: '',
+    gitHubUrl: '',
+    portfolioUrl: ''
+  };
+
+  constructor(
+    private profileService: ProfileService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['profileData'] && this.profileData) {
+      this.phone = this.profileData.phoneNumber || '';
+      this.location = this.profileData.city || '';
+      this.headline = this.profileData.headline || '';
+      this.summary = this.profileData.summary || '';
+      this.linkedInUrl = this.profileData.linkedInUrl || '';
+      this.gitHubUrl = this.profileData.gitHubUrl || '';
+      this.portfolioUrl = this.profileData.portfolioUrl || '';
+      this.cdr.detectChanges();
+    }
+  }
 
   onEdit() {
-    this.isEditing = !this.isEditing;
-    // TODO: تفعيل وضع التعديل أو فتح modal لاحقًا
+    this.editData = {
+      phone: this.phone,
+      city: this.location,
+      headline: this.headline,
+      summary: this.summary,
+      linkedInUrl: this.linkedInUrl,
+      gitHubUrl: this.gitHubUrl,
+      portfolioUrl: this.portfolioUrl
+    };
+    this.isEditing = true;
+    this.successMessage = '';
+    this.errorMessage = '';
+  }
+
+  onCancel() {
+    this.isEditing = false;
+  }
+
+  onSave() {
+    this.isSaving = true;
+    this.successMessage = '';
+    this.errorMessage = '';
+
+    this.profileService.updateProfile({
+      phoneNumber: this.editData.phone,
+      city: this.editData.city,
+      headline: this.editData.headline,
+      summary: this.editData.summary,
+      linkedInUrl: this.editData.linkedInUrl,
+      gitHubUrl: this.editData.gitHubUrl,
+      portfolioUrl: this.editData.portfolioUrl
+    } as any).subscribe({
+      next: (res: any) => {
+        const data = res?.data;
+        this.phone = data?.phoneNumber || this.editData.phone || '';
+        this.location = data?.city || this.editData.city || '';
+        this.headline = data?.headline || this.editData.headline || '';
+        this.summary = data?.summary || this.editData.summary || '';
+        this.linkedInUrl = data?.linkedInUrl || this.editData.linkedInUrl || '';
+        this.gitHubUrl = data?.gitHubUrl || this.editData.gitHubUrl || '';
+        this.portfolioUrl = data?.portfolioUrl || this.editData.portfolioUrl || '';
+
+        this.successMessage = 'Profile updated successfully!';
+        this.isEditing = false;
+        this.isSaving = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        this.errorMessage = 'Failed to update profile. Please try again.';
+        this.isSaving = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

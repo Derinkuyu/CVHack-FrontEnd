@@ -4,11 +4,12 @@ import type { Job } from '../../models/job.model';
 import { LocationIcon } from "../../assets/location-icon/location-icon";
 import { ClockIcon } from '../../assets/clock-icon/clock-icon';
 import { MatchScore } from '../match-score/match-score';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-job-card',
-  imports: [CommonModule, LocationIcon, ClockIcon, MatchScore],
+  imports: [CommonModule, LocationIcon, ClockIcon, MatchScore, RouterLink],
   templateUrl: './job-card.html',
   styleUrl: './job-card.css',
 })
@@ -18,5 +19,5 @@ export class JobCard {
   get isHighMatch() {
     return this.job.matchScore >= 80;
   }
-  
+
 }

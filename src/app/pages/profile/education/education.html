@@ -1,24 +1,86 @@
 <div class="education-card">
   <div class="education-card__header">
     <h3 class="education-card__title">Education</h3>
-    <button class="education-card__add-btn" (click)="addEducation()">
-      + Add
-    </button>
+    <button class="education-card__add-btn" (click)="openAddForm()">+ Add</button>
   </div>
 
-  <div class="education-card__list">
-    <div class="education-item" *ngFor="let item of educationList; let i = index">
+  <!-- Loading -->
+  <div *ngIf="isLoading" style="color: var(--muted); font-size: 14px; padding: 12px 0;">
+    Loading...
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!isLoading && educationList.length === 0 && !showForm"
+    style="color: var(--muted); font-size: 14px; padding: 12px 0;">
+    No education added yet.
+  </div>
+
+  <!-- List -->
+  <div class="education-card__list" *ngIf="!isLoading && educationList.length > 0">
+    <div class="education-item" *ngFor="let item of educationList">
       <div class="education-item__icon">🎓</div>
 
       <div class="education-item__info">
-        <h4 class="education-item__degree">{{ item.degree }}</h4>
-        <p class="education-item__meta">
-          {{ item.institution }} · {{ item.startYear }} — {{ item.endYear }}
-        </p>
-      </div>
+  <h4 class="education-item__degree">{{ item.degree }}</h4>
+  <p class="education-item__meta">
+    {{ item.university }} · {{ item.startYear }} — {{ item.endYear }}
+  </p>
+  <p class="education-item__meta" *ngIf="item.grade">
+    Grade: {{ item.grade }}
+  </p>
+</div>
 
-      <button class="education-item__delete" (click)="removeEducation(i)">
-        🗑
+      <div class="education-item__actions">
+        <button class="education-item__edit" (click)="openEditForm(item)">✏</button>
+        <button class="education-item__delete" (click)="deleteEducation(item.id!)">🗑</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="education-form" *ngIf="showForm">
+    <h4 class="education-form__title">
+      {{ editingId ? 'Edit Education' : 'Add Education' }}
+    </h4>
+
+   <div class="education-form__grid">
+  <div class="education-form__field">
+    <label class="education-form__label">Degree *</label>
+    <input class="education-form__input" type="text"
+      [(ngModel)]="formData.degree" placeholder="B.Sc. Computer Science" />
+  </div>
+
+  <div class="education-form__field">
+    <label class="education-form__label">University *</label>
+    <input class="education-form__input" type="text"
+      [(ngModel)]="formData.university" placeholder="Cairo University" />
+  </div>
+
+  <div class="education-form__field">
+    <label class="education-form__label">Start Year</label>
+    <input class="education-form__input" type="number"
+      [(ngModel)]="formData.startYear" placeholder="2018" />
+  </div>
+
+  <div class="education-form__field">
+    <label class="education-form__label">End Year</label>
+    <input class="education-form__input" type="number"
+      [(ngModel)]="formData.endYear" placeholder="2022" />
+  </div>
+
+  <div class="education-form__field">
+    <label class="education-form__label">Grade</label>
+    <input class="education-form__input" type="text"
+      [(ngModel)]="formData.grade" placeholder="3.8 GPA" />
+  </div>
+</div>
+
+    <div class="education-form__buttons">
+      <button class="education-form__cancel" (click)="onCancel()">Cancel</button>
+      <button class="education-form__save"
+        (click)="onSave()"
+        [disabled]="isSaving || !formData.degree || !formData.university">
+        {{ isSaving ? 'Saving...' : 'Save' }}
       </button>
     </div>
   </div>

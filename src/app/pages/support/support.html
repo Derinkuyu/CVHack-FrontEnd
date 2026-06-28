@@ -10,7 +10,10 @@
   </div>
 
   <div class="support-page__grid">
-    <app-submit-ticket-form (ticketSubmit)="onTicketSubmit($event)"></app-submit-ticket-form>
+    <app-submit-ticket-form
+      (ticketSubmitted)="onTicketSubmitted()"
+    ></app-submit-ticket-form>
+
     <app-my-tickets></app-my-tickets>
   </div>
 </div>

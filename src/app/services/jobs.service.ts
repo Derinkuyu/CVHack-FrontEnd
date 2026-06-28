@@ -1,55 +1,26 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { firstValueFrom } from 'rxjs';
-
-export interface Job {
-  id: number;
-  title: string;
-  companyName: string;
-  city: string;
-  country: string;
-  seniority: string;
-  workType: string;
-  workTime: string;
-  description: string;
-  briefDescription: string;
-  salaryMin: number;
-  salaryMax: number;
-  postedAt: string;
-  jobUrl: string;
-  sourcePlatform: string;
-}
+import { ApiResult } from '../models/auth.model';
+import { Job } from '../models/job.model';
+import { mapJobDtoToJob } from '../models/job.mapper';
+import { JobDto } from '../models/job.dto.model';
 
 @Injectable({ providedIn: 'root' })
 export class JobsService {
   private http = inject(HttpClient);
+  private apiUrl = environment.apiUrl;
 
-  async getAll(): Promise<Job[]> {
-    try {
-      const res = await firstValueFrom(
-        this.http.get<any>(`${environment.apiUrl}/jobs`)
-      );
-      return res.data ?? [];
-    } catch {
-      return [];
-    }
+  getJobs(): Observable<Job[]> {
+    return this.http
+      .get<ApiResult<JobDto[]>>(`${this.apiUrl}/jobs`)
+      .pipe(map((res) => (res.data ?? []).map(mapJobDtoToJob)));
   }
 
-async getById(id: number): Promise<Job | null> {
-  try {
-    const res = await firstValueFrom(
-      this.http.get<any>(`${environment.apiUrl}/jobs/${id}`)
-    );
-    console.log('API Response:', res); // شوف في الـ console إيه اللي بيطلع
-    
-    // جرب الثلاثة دول وشوف أيهم شغال
-    return res.data ?? res.job ?? res ?? null;
-    
-  } catch (err) {
-    console.error('Error:', err);
-    return null;
+  getJob(id: number): Observable<Job> {
+    return this.http
+      .get<ApiResult<JobDto>>(`${this.apiUrl}/jobs/${id}`)
+      .pipe(map((res) => mapJobDtoToJob(res.data!)));
   }
-}
-
 }

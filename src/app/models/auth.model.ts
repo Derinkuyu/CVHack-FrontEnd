@@ -4,13 +4,10 @@ export interface LoginPayload {
 }
 
 export interface RegisterPayload {
-  email: string;
-  password: string;
   firstName: string;
   lastName: string;
-  title: string;
-  seniority: string;
-  phone?: string;
+  email: string;
+  password: string;
 }
 
 

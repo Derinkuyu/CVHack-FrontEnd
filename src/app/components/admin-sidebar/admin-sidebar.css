@@ -7,3 +7,7 @@
 .admin-link-active-icon {
   color: var(--copper);
 }
+:host {
+  display: block;
+  background: var(--teal);
+}
