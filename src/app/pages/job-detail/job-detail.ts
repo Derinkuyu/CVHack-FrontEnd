@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Navbar } from '../../components/navbar/navbar';
 import { JobHeader, JobHeaderData } from './components/job-header/job-header';
 import { JobAbout, JobAboutData } from './components/job-about/job-about';
 import { AiMatchCard, AiMatchData } from './components/ai-match-card/ai-match-card';
 import { CompanyBriefing, CompanyBriefingData } from './components/company-briefing/company-briefing';
 import { JobActions } from './components/job-actions/job-actions';
+import { JobsService, Job } from '../../services/jobs.service';
 
 @Component({
   selector: 'app-job-detail',
@@ -12,34 +14,16 @@ import { JobActions } from './components/job-actions/job-actions';
   templateUrl: './job-detail.html',
   styleUrl: './job-detail.css',
 })
-export class JobDetail {
-  // Dummy data — replace with data fetched from the API based on the job id route param
-  header: JobHeaderData = {
-    companyInitials: 'NL',
-    title: 'Senior Frontend Engineer',
-    companyName: 'Nile Logic',
-    location: 'New Cairo, Egypt',
-    postedAt: '2h ago',
-    tags: ['Remote', 'Full-time', 'Senior'],
-    salary: 'EGP 55k – 75k/mo',
-  };
+export class JobDetail implements OnInit {
+  private route = inject(ActivatedRoute);
+  private jobsService = inject(JobsService);
+  private cdr = inject(ChangeDetectorRef);
 
-  about: JobAboutData = {
-    description:
-      'Nile Logic is a 120–250 person Data Analytics company founded in 2016. Build the next generation of our analytics platform with React, TypeScript and a modern internal design system. You will own the component architecture end to end. You will join a tight-knit team that values craft, autonomy and shipping work that matters.',
-    responsibilities: [
-      'Own the architecture and delivery of core product features end to end.',
-      'Collaborate closely with design and product to ship polished, accessible interfaces.',
-      'Set technical direction and mentor engineers across the team.',
-      'Drive quality through testing, code review and thoughtful trade-offs.',
-    ],
-    requirements: [
-      '5+ years building production data analytics software',
-      'Deep expertise in React and TypeScript',
-      'Strong product sense and communication skills',
-      'Comfortable in a fast-moving, remote environment',
-    ],
-  };
+  loading = true;
+  error = '';
+  job: Job | null = null;
+  header!: JobHeaderData;
+  about!: JobAboutData;
 
   aiMatch: AiMatchData = {
     score: 92,
@@ -65,4 +49,56 @@ export class JobDetail {
       'Remote-first across Egypt & MENA time zones',
     ],
   };
+
+  async ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.loading = true;
+
+    try {
+      this.job = await this.jobsService.getById(id);
+
+      if (this.job) {
+        this.header = {
+          companyInitials: this.job.companyName.substring(0, 2).toUpperCase(),
+          title: this.job.title,
+          companyName: this.job.companyName,
+          location: `${this.job.city}, ${this.job.country}`,
+          postedAt: this.getPostedAt(this.job.postedAt),
+          tags: [this.job.workType, this.job.workTime, this.job.seniority],
+          salary: `EGP ${(this.job.salaryMin / 1000).toFixed(0)}k – ${(this.job.salaryMax / 1000).toFixed(0)}k/mo`,
+        };
+        this.about = {
+          description: this.job.description,
+          responsibilities: [
+            'Own the architecture and delivery of core product features end to end.',
+            'Collaborate closely with design and product to ship polished, accessible interfaces.',
+            'Set technical direction and mentor engineers across the team.',
+            'Drive quality through testing, code review and thoughtful trade-offs.',
+          ],
+          requirements: [
+            '5+ years building production software',
+            `Deep expertise in ${this.job.title.split(' ')[0]} and related technologies`,
+            'Strong product sense and communication skills',
+            'Comfortable in a fast-moving, remote environment',
+          ],
+        };
+      } else {
+        this.error = 'Job not found.';
+      }
+    } catch (err) {
+      console.error('Component error:', err);
+      this.error = 'Something went wrong.';
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
+  }
+
+  getPostedAt(dateStr: string): string {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const hours = Math.floor(diff / 3600000);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  }
 }

@@ -3,13 +3,12 @@
 
   <div class="admin-tickets-page">
     <app-tickets-list
-      [selectedTicketId]="selectedTicket?.id || ''"
       (ticketSelect)="onTicketSelect($event)"
     ></app-tickets-list>
 
     <app-ticket-detail
       [ticket]="selectedTicket"
-      [description]="ticketDescription"
+      (statusUpdated)="onStatusUpdated()"
     ></app-ticket-detail>
   </div>
 </div>

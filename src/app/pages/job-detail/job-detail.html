@@ -1,20 +1,30 @@
 <app-navbar></app-navbar>
 
-<div class="max-w-6xl mx-auto px-6 py-6">
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+@if (loading) {
+  <div class="loading-state">Loading job details...</div>
+}
 
-    <!-- Main column -->
-    <div class="lg:col-span-2 flex flex-col gap-6">
-      <app-job-header [data]="header"></app-job-header>
-      <app-job-about [data]="about"></app-job-about>
+@if (error) {
+  <div class="error-state">{{ error }}</div>
+}
+
+@if (job) {
+  <div class="max-w-6xl mx-auto px-6 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+
+      <!-- Main column -->
+      <div class="lg:col-span-2 flex flex-col gap-6">
+        <app-job-header [data]="header"></app-job-header>
+        <app-job-about [data]="about"></app-job-about>
+      </div>
+
+      <!-- Side column -->
+      <div class="flex flex-col gap-6">
+        <app-ai-match-card [data]="aiMatch"></app-ai-match-card>
+        <app-company-briefing [data]="companyBriefing"></app-company-briefing>
+        <app-job-actions [jobId]="job.id" [jobUrl]="job.jobUrl"></app-job-actions>
+      </div>
+
     </div>
-
-    <!-- Side column -->
-    <div class="flex flex-col gap-6">
-      <app-ai-match-card [data]="aiMatch"></app-ai-match-card>
-      <app-company-briefing [data]="companyBriefing"></app-company-briefing>
-      <app-job-actions></app-job-actions>
-    </div>
-
   </div>
-</div>
+}

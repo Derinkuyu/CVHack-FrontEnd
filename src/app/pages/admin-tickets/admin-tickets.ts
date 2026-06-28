@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketsList, Ticket } from './tickets-list/tickets-list';
+import { TicketsList } from './tickets-list/tickets-list';
 import { TicketDetail } from './ticket-detail/ticket-detail';
+import { AdminTicket } from '../../services/admin-tickets';
 import { AdminSidebar } from '../../components/admin-sidebar/admin-sidebar';
 
 @Component({
@@ -12,17 +13,17 @@ import { AdminSidebar } from '../../components/admin-sidebar/admin-sidebar';
   styleUrl: './admin-tickets.css'
 })
 export class AdminTickets {
-  selectedTicket: Ticket | null = {
-    id: 'T-1042',
-    subject: 'Match score not updating after profile edit',
-    user: 'Youssef Hassan',
-    date: 'Jun 10',
-    status: 'In Progress'
-  };
+  @ViewChild(TicketsList) ticketsListComponent!: TicketsList;
 
-  ticketDescription = 'After I update my skills the match score on saved jobs does not refresh until I log out and back in.';
+  selectedTicket: AdminTicket | null = null;
 
-  onTicketSelect(ticket: Ticket) {
+  onTicketSelect(ticket: AdminTicket) {
     this.selectedTicket = ticket;
+  }
+
+  onStatusUpdated() {
+    if (this.ticketsListComponent) {
+      this.ticketsListComponent.loadTickets();
+    }
   }
 }

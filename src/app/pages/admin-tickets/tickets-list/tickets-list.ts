@@ -1,13 +1,7 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AdminTicketsService, AdminTicket } from '../../../services/admin-tickets';
 
-export interface Ticket {
-  id: string;
-  subject: string;
-  user: string;
-  date: string;
-  status: 'Open' | 'In Progress' | 'Resolved';
-}
 
 @Component({
   selector: 'app-tickets-list',
@@ -16,35 +10,73 @@ export interface Ticket {
   templateUrl: './tickets-list.html',
   styleUrl: './tickets-list.css'
 })
-export class TicketsList {
-  @Input() selectedTicketId: string = '';
-  @Output() ticketSelect = new EventEmitter<Ticket>();
+export class TicketsList implements OnInit {
+  @Output() ticketSelect = new EventEmitter<AdminTicket>();
 
-  filters = ['All', 'Open', 'In Progress', 'Resolved'];
+  tickets: AdminTicket[] = [];
+  filteredTickets: AdminTicket[] = [];
+  selectedTicketId: number | null = null;
+
+  filters = ['All', 'Open', 'In Progress', 'Closed'];
   activeFilter = 'All';
 
-  tickets: Ticket[] = [
-    { id: 'T-1042', subject: 'Match score not updating after profile edit', user: 'Youssef Hassan', date: 'Jun 10', status: 'In Progress' },
-    { id: 'T-1041', subject: 'Export mock interview transcript', user: 'Nour Adel', date: 'Jun 9', status: 'Open' },
-    { id: 'T-1039', subject: 'Annual plan invoice missing VAT', user: 'Khaled Mostafa', date: 'Jun 8', status: 'Open' },
-    { id: 'T-1035', subject: 'Cannot upload CV (PDF over 5MB)', user: 'Mariam Saad', date: 'Jun 5', status: 'Resolved' },
-    { id: 'T-1031', subject: 'Dark mode resets on reload', user: 'Omar Tarek', date: 'Jun 3', status: 'Resolved' },
-  ];
+  isLoading = true;
 
-  get filteredTickets(): Ticket[] {
-    if (this.activeFilter === 'All') return this.tickets;
-    return this.tickets.filter(t => t.status === this.activeFilter);
+  constructor(
+    private adminTicketsService: AdminTicketsService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    this.loadTickets();
+  }
+
+  loadTickets() {
+    this.isLoading = true;
+    this.adminTicketsService.getAllTickets().subscribe({
+      next: (res: any) => {
+        console.log('Admin tickets:', res);
+        this.tickets = res?.data || [];
+        this.applyFilter();
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error loading tickets:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  applyFilter() {
+    if (this.activeFilter === 'All') {
+      this.filteredTickets = this.tickets;
+    } else {
+      this.filteredTickets = this.tickets.filter(
+        t => t.status === this.activeFilter
+      );
+    }
   }
 
   setFilter(filter: string) {
     this.activeFilter = filter;
+    this.applyFilter();
   }
 
-  selectTicket(ticket: Ticket) {
+  selectTicket(ticket: AdminTicket) {
+    this.selectedTicketId = ticket.id;
     this.ticketSelect.emit(ticket);
   }
 
   statusClass(status: string): string {
-    return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
+  return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
+}
+
+  formatDate(dateStr: string): string {
+    if (!dateStr) return '';
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric'
+    });
   }
 }

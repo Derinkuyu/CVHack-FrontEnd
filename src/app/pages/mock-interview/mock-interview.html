@@ -4,6 +4,11 @@
 
   <div class="interview-body">
     <app-chat-window [messages]="messages"></app-chat-window>
+    @if (isLoading) {
+      <div class="typing-indicator">
+        <span></span><span></span><span></span>
+      </div>
+    }
     <app-chat-input (sendMessage)="onSend($event)"></app-chat-input>
   </div>
 </div>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-actions',
@@ -7,11 +8,16 @@ import { Component } from '@angular/core';
   styleUrl: './job-actions.css',
 })
 export class JobActions {
+  @Input() jobId!: number;
+  @Input() jobUrl!: string;
+
+  constructor(private router: Router) {}
+
   startMockInterview() {
-    console.log('Start mock interview clicked');
+    this.router.navigate(['/mock-interview']);
   }
 
   applyNow() {
-    console.log('Apply now clicked');
-  }
+  window.open(`/jobs/${this.jobId}`, '_blank');
+}
 }

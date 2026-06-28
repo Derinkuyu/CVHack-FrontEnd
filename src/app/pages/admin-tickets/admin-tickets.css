@@ -12,3 +12,7 @@
    &::-webkit-scrollbar {
     display: none;}         
 }
+.status-badge--closed {
+  background-color: var(--greenSoft);
+  color: var(--green);
+}
