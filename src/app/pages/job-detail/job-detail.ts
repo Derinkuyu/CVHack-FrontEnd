@@ -52,6 +52,7 @@ export class JobDetail implements OnInit {
     this.loading = true;
     try {
       this.job = await this.jobsService.getById(id);
+      console.log('Job data:', this.job);
       if (this.job) {
         this.header = {
           companyInitials: this.job.company.substring(0, 2).toUpperCase(), // ✅
