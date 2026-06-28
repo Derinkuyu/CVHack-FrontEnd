@@ -4,6 +4,7 @@
   <div class="admin-tickets-page">
     <app-tickets-list
       (ticketSelect)="onTicketSelect($event)"
+      (filterChange)="onFilterChange($event)"
     ></app-tickets-list>
 
     <app-ticket-detail

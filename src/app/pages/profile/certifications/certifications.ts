@@ -15,6 +15,7 @@ export class Certifications implements OnInit {
   isLoading = true;
   showForm = false;
   isSaving = false;
+  errors: any = {};
 
   formData: CertificationItem = {
     name: '',
@@ -38,13 +39,11 @@ export class Certifications implements OnInit {
     this.isLoading = true;
     this.certificationsService.getCertifications().subscribe({
       next: (res: any) => {
-        console.log('Certifications:', res);
         this.certificationsList = res?.data || res || [];
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error:', err);
         this.certificationsList = [];
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -54,12 +53,14 @@ export class Certifications implements OnInit {
 
   openAddForm() {
     this.editingId = null;
+    this.errors = {};
     this.formData = { name: '', provider: null, credentialUrl: null, certifiedAt: null };
     this.showForm = true;
   }
 
   openEditForm(item: CertificationItem) {
     this.editingId = item.id || null;
+    this.errors = {};
     this.formData = { ...item };
     this.showForm = true;
   }
@@ -67,10 +68,32 @@ export class Certifications implements OnInit {
   onCancel() {
     this.showForm = false;
     this.editingId = null;
+    this.errors = {};
+  }
+
+  validateForm(): boolean {
+    this.errors = {};
+
+    if (!this.formData.name?.trim()) {
+      this.errors.name = 'Certification name is required';
+    }
+
+    if (this.formData.credentialUrl && !this.formData.credentialUrl.startsWith('https://')) {
+      this.errors.credentialUrl = 'URL must start with https://';
+    }
+
+    if (this.formData.certifiedAt) {
+      const date = new Date(this.formData.certifiedAt);
+      if (isNaN(date.getTime())) {
+        this.errors.certifiedAt = 'Please enter a valid date';
+      }
+    }
+
+    return Object.keys(this.errors).length === 0;
   }
 
   onSave() {
-    if (!this.formData.name) return;
+    if (!this.validateForm()) return;
     this.isSaving = true;
 
     if (this.editingId) {
@@ -79,6 +102,7 @@ export class Certifications implements OnInit {
           this.loadCertifications();
           this.showForm = false;
           this.isSaving = false;
+          this.errors = {};
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -92,6 +116,7 @@ export class Certifications implements OnInit {
           this.loadCertifications();
           this.showForm = false;
           this.isSaving = false;
+          this.errors = {};
           this.cdr.detectChanges();
         },
         error: (err) => {

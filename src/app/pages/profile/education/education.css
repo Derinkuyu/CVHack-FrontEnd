@@ -188,3 +188,13 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+.education-form__input--error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--redSoft);
+}
+
+.education-form__error {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 2px;
+}

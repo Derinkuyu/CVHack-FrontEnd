@@ -15,7 +15,6 @@ export class Support {
   @ViewChild(MyTickets) myTicketsComponent!: MyTickets;
 
   onTicketSubmitted() {
-    // بعد الـ submit، نعمل refresh للتذاكر
     if (this.myTicketsComponent) {
       this.myTicketsComponent.refresh();
     }

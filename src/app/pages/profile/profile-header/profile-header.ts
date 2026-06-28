@@ -17,6 +17,6 @@ export class ProfileHeader {
 
   onDownloadCV() {
     console.log('Downloading CV...');
-    // TODO: ربط الفنكشن دي بالـ API لاحقًا
+    
   }
 }

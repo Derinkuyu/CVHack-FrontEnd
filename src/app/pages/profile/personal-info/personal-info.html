@@ -66,9 +66,14 @@
 
     <div class="info-card__grid">
       <div class="info-card__field">
-        <label class="info-card__label">Phone</label>
-        <input class="info-card__input" type="text" [(ngModel)]="editData.phone" placeholder="+20 10 ..." />
-      </div>
+  <label class="info-card__label">Phone</label>
+  <input class="info-card__input"
+    [class.info-card__input--error]="errors.phone"
+    type="tel"
+    [(ngModel)]="editData.phone"
+    placeholder="+20 10 ..." />
+  <span class="info-card__error-msg" *ngIf="errors.phone">{{ errors.phone }}</span>
+</div>
       <div class="info-card__field">
         <label class="info-card__label">City</label>
         <input class="info-card__input" type="text" [(ngModel)]="editData.city" placeholder="Cairo, Egypt" />
@@ -78,17 +83,32 @@
         <input class="info-card__input" type="text" [(ngModel)]="editData.headline" placeholder="Senior Developer..." />
       </div>
       <div class="info-card__field">
-        <label class="info-card__label">LinkedIn URL</label>
-        <input class="info-card__input" type="text" [(ngModel)]="editData.linkedInUrl" placeholder="https://linkedin.com/in/..." />
-      </div>
+  <label class="info-card__label">LinkedIn URL</label>
+  <input class="info-card__input"
+    [class.info-card__input--error]="errors.linkedInUrl"
+    type="text"
+    [(ngModel)]="editData.linkedInUrl"
+    placeholder="https://linkedin.com/in/..." />
+  <span class="info-card__error-msg" *ngIf="errors.linkedInUrl">{{ errors.linkedInUrl }}</span>
+</div>
       <div class="info-card__field">
-        <label class="info-card__label">GitHub URL</label>
-        <input class="info-card__input" type="text" [(ngModel)]="editData.gitHubUrl" placeholder="https://github.com/..." />
-      </div>
+  <label class="info-card__label">GitHub URL</label>
+  <input class="info-card__input"
+    [class.info-card__input--error]="errors.gitHubUrl"
+    type="text"
+    [(ngModel)]="editData.gitHubUrl"
+    placeholder="https://github.com/..." />
+  <span class="info-card__error-msg" *ngIf="errors.gitHubUrl">{{ errors.gitHubUrl }}</span>
+</div>
       <div class="info-card__field">
-        <label class="info-card__label">Portfolio URL</label>
-        <input class="info-card__input" type="text" [(ngModel)]="editData.portfolioUrl" placeholder="https://..." />
-      </div>
+  <label class="info-card__label">Portfolio URL</label>
+  <input class="info-card__input"
+    [class.info-card__input--error]="errors.portfolioUrl"
+    type="text"
+    [(ngModel)]="editData.portfolioUrl"
+    placeholder="https://..." />
+  <span class="info-card__error-msg" *ngIf="errors.portfolioUrl">{{ errors.portfolioUrl }}</span>
+</div>
     </div>
 
     <div class="info-card__field info-card__field--full">
