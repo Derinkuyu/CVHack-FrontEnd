@@ -7,6 +7,7 @@ export interface Job {
   country: string;
   location: string;
   postedAgo: string;
+  postedAt: string;
   workType: string;
   workTime: string;
   seniority: string;
@@ -16,4 +17,6 @@ export interface Job {
   matchScore: number;
   description: string;
   briefDescription: string;
+  jobUrl: string;
+  sourcePlatform: string;
 }

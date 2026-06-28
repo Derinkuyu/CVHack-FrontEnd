@@ -11,6 +11,7 @@ export function mapJobDtoToJob(dto: JobDto): Job {
     country: dto.country,
     location: [dto.city, dto.country].filter(Boolean).join(', '),
     postedAgo: timeAgo(dto.postedAt),
+    postedAt: dto.postedAt,
     workType: dto.workType,
     workTime: dto.workTime,
     seniority: dto.seniority,
@@ -20,6 +21,8 @@ export function mapJobDtoToJob(dto: JobDto): Job {
     matchScore: 0,
     description: dto.description,
     briefDescription: dto.briefDescription ?? '',
+    jobUrl: dto.jobUrl ?? '',         // ✅ زيادة
+    sourcePlatform: dto.sourcePlatform ?? '', // ✅ زيادة
   };
 }
 

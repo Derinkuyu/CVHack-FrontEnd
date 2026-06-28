@@ -6,7 +6,8 @@ import { JobAbout, JobAboutData } from './components/job-about/job-about';
 import { AiMatchCard, AiMatchData } from './components/ai-match-card/ai-match-card';
 import { CompanyBriefing, CompanyBriefingData } from './components/company-briefing/company-briefing';
 import { JobActions } from './components/job-actions/job-actions';
-import { JobsService, Job } from '../../services/jobs.service';
+import { JobsService } from '../../services/jobs.service';
+import { Job } from '../../models/job.model';
 
 @Component({
   selector: 'app-job-detail',
@@ -18,13 +19,11 @@ export class JobDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private jobsService = inject(JobsService);
   private cdr = inject(ChangeDetectorRef);
-
   loading = true;
   error = '';
   job: Job | null = null;
   header!: JobHeaderData;
   about!: JobAboutData;
-
   aiMatch: AiMatchData = {
     score: 92,
     summary: "Your profile aligns well with this role's core requirements.",
@@ -38,7 +37,6 @@ export class JobDetail implements OnInit {
     ],
     gapSkills: ['GraphQL', 'Rust / WASM'],
   };
-
   companyBriefing: CompanyBriefingData = {
     staffRange: '120–250',
     founded: '2016',
@@ -49,22 +47,19 @@ export class JobDetail implements OnInit {
       'Remote-first across Egypt & MENA time zones',
     ],
   };
-
   async ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.loading = true;
-
     try {
       this.job = await this.jobsService.getById(id);
-
       if (this.job) {
         this.header = {
-          companyInitials: this.job.companyName.substring(0, 2).toUpperCase(),
+          companyInitials: this.job.company.substring(0, 2).toUpperCase(), // ✅
           title: this.job.title,
-          companyName: this.job.companyName,
-          location: `${this.job.city}, ${this.job.country}`,
-          postedAt: this.getPostedAt(this.job.postedAt),
-          tags: [this.job.workType, this.job.workTime, this.job.seniority],
+          companyName: this.job.company, // ✅
+          location: this.job.location, // ✅ موجودة في الـ model
+          postedAt: this.job.postedAgo, // ✅
+          tags: this.job.tags, // ✅ موجودة في الـ model
           salary: `EGP ${(this.job.salaryMin / 1000).toFixed(0)}k – ${(this.job.salaryMax / 1000).toFixed(0)}k/mo`,
         };
         this.about = {
@@ -93,7 +88,6 @@ export class JobDetail implements OnInit {
       this.cdr.detectChanges();
     }
   }
-
   getPostedAt(dateStr: string): string {
     const diff = Date.now() - new Date(dateStr).getTime();
     const hours = Math.floor(diff / 3600000);
