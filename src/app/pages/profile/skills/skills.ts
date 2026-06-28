@@ -65,7 +65,7 @@ export class Skills implements OnInit {
       next: (res: any) => {
         console.log('Search results:', res);
         const allResults = res?.data || res || [];
-        // فلتري الـ skills اللي مضافة خلاص
+        
         this.searchResults = allResults.filter(
           (s: Skill) => !this.skills.find(ps => ps.id === s.id)
         );

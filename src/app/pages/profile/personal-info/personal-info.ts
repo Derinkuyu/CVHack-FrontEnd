@@ -27,6 +27,7 @@ export class PersonalInfo implements OnChanges {
   isSaving = false;
   successMessage = '';
   errorMessage = '';
+  errors: any = {};
 
   editData = {
     phone: '',
@@ -56,7 +57,30 @@ export class PersonalInfo implements OnChanges {
     }
   }
 
+  validateForm(): boolean {
+    this.errors = {};
+
+    if (this.editData.phone && !/^[+\d\s\-()]+$/.test(this.editData.phone)) {
+      this.errors.phone = 'Phone must contain numbers only';
+    }
+
+    if (this.editData.linkedInUrl && !this.editData.linkedInUrl.startsWith('https://')) {
+      this.errors.linkedInUrl = 'LinkedIn URL must start with https://';
+    }
+
+    if (this.editData.gitHubUrl && !this.editData.gitHubUrl.startsWith('https://')) {
+      this.errors.gitHubUrl = 'GitHub URL must start with https://';
+    }
+
+    if (this.editData.portfolioUrl && !this.editData.portfolioUrl.startsWith('https://')) {
+      this.errors.portfolioUrl = 'Portfolio URL must start with https://';
+    }
+
+    return Object.keys(this.errors).length === 0;
+  }
+
   onEdit() {
+    this.errors = {};
     this.editData = {
       phone: this.phone,
       city: this.location,
@@ -73,9 +97,11 @@ export class PersonalInfo implements OnChanges {
 
   onCancel() {
     this.isEditing = false;
+    this.errors = {};
   }
 
   onSave() {
+    if (!this.validateForm()) return;
     this.isSaving = true;
     this.successMessage = '';
     this.errorMessage = '';
@@ -102,6 +128,7 @@ export class PersonalInfo implements OnChanges {
         this.successMessage = 'Profile updated successfully!';
         this.isEditing = false;
         this.isSaving = false;
+        this.errors = {};
         this.cdr.detectChanges();
       },
       error: (err) => {

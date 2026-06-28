@@ -5,11 +5,11 @@ import { environment } from '../../environments/environment';
 
 export interface ExperienceItem {
   id?: string;
-  title: string;
-  company: string;
+  companyName: string;
+  jobTitle: string;
   startDate: string;
-  endDate: string;
-  description: string;
+  endDate?: string | null;
+  description?: string;
 }
 
 @Injectable({
@@ -27,25 +27,25 @@ export class ExperienceService {
 
   getExperience(): Observable<ExperienceItem[]> {
     return this.http.get<ExperienceItem[]>(`${this.apiUrl}/profile/experience`, {
-      headers: this.getHeaders()
+      
     });
   }
 
   addExperience(data: ExperienceItem): Observable<ExperienceItem> {
     return this.http.post<ExperienceItem>(`${this.apiUrl}/profile/experience`, data, {
-      headers: this.getHeaders()
+      
     });
   }
 
   updateExperience(id: string, data: ExperienceItem): Observable<ExperienceItem> {
     return this.http.put<ExperienceItem>(`${this.apiUrl}/profile/experience/${id}`, data, {
-      headers: this.getHeaders()
+      
     });
   }
 
   deleteExperience(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/profile/experience/${id}`, {
-      headers: this.getHeaders()
+      
     });
   }
 }

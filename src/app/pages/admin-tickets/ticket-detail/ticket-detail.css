@@ -185,3 +185,13 @@ a.ticket-detail__send-btn.disabled {
   line-height: 1;
   padding: 0;
 }
+
+.ticket-detail__status-select{
+  padding: 8px 12px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background-color: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font-body);
+}

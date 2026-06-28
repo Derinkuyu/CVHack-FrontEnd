@@ -15,6 +15,7 @@ export class Projects implements OnInit {
   isLoading = true;
   showForm = false;
   isSaving = false;
+  errors: any = {};
 
   formData: ProjectItem = {
     title: '',
@@ -53,12 +54,14 @@ export class Projects implements OnInit {
 
   openAddForm() {
     this.editingId = null;
+    this.errors = {};
     this.formData = { title: '', description: null, githubUrl: null };
     this.showForm = true;
   }
 
   openEditForm(item: ProjectItem) {
     this.editingId = item.id || null;
+    this.errors = {};
     this.formData = { ...item };
     this.showForm = true;
   }
@@ -66,10 +69,28 @@ export class Projects implements OnInit {
   onCancel() {
     this.showForm = false;
     this.editingId = null;
+    this.errors = {};
+  }
+
+  validateForm(): boolean {
+    this.errors = {};
+
+    if (!this.formData.title?.trim()) {
+      this.errors.title = 'Project title is required';
+    }
+
+    if (this.formData.githubUrl?.trim()) {
+      const urlPattern = /^https?:\/\/.+/;
+      if (!urlPattern.test(this.formData.githubUrl.trim())) {
+        this.errors.githubUrl = 'Please enter a valid URL (e.g. https://github.com/...)';
+      }
+    }
+
+    return Object.keys(this.errors).length === 0;
   }
 
   onSave() {
-    if (!this.formData.title) return;
+    if (!this.validateForm()) return;
     this.isSaving = true;
 
     if (this.editingId) {
@@ -78,6 +99,7 @@ export class Projects implements OnInit {
           this.loadProjects();
           this.showForm = false;
           this.isSaving = false;
+          this.errors = {};
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -91,6 +113,7 @@ export class Projects implements OnInit {
           this.loadProjects();
           this.showForm = false;
           this.isSaving = false;
+          this.errors = {};
           this.cdr.detectChanges();
         },
         error: (err) => {

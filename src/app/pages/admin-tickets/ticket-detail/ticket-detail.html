@@ -1,3 +1,4 @@
+
 <div class="ticket-detail" *ngIf="ticket">
 
   <!-- Alert -->
@@ -8,28 +9,28 @@
 
   <div class="ticket-detail__card">
     <div class="ticket-detail__header">
-      <span class="ticket-detail__id">#{{ ticket.id }}</span>
-      <span [ngClass]="statusClass(ticket.status)">{{ ticket.status }}</span>
+      <span class="ticket-detail__id">#{{ ticket!.id }}</span>
+      <span [ngClass]="statusClass(ticket!.status)">{{ ticket!.status }}</span>
     </div>
 
-    <h3 class="ticket-detail__subject">{{ ticket.subject }}</h3>
+    <h3 class="ticket-detail__subject">{{ ticket!.subject }}</h3>
 
     <div class="ticket-detail__grid">
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">From</span>
-        <span class="ticket-detail__value">{{ ticket.userName || ticket.email }}</span>
+        <span class="ticket-detail__value">{{ ticket!.userName || ticket!.email }}</span>
       </div>
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">Email</span>
-        <span class="ticket-detail__value">{{ ticket.email }}</span>
+        <span class="ticket-detail__value">{{ ticket!.email }}</span>
       </div>
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">Category</span>
-        <span class="ticket-detail__value">{{ ticket.category || '—' }}</span>
+        <span class="ticket-detail__value">{{ ticket!.category || '—' }}</span>
       </div>
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">Opened</span>
-        <span class="ticket-detail__value">{{ ticket.createdAt | date:'MMM d' }}</span>
+        <span class="ticket-detail__value">{{ ticket!.createdAt | date:'MMM d' }}</span>
       </div>
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">Update Status</span>
@@ -43,8 +44,8 @@
   </div>
 
   <div class="ticket-detail__message-card">
-    <p class="ticket-detail__message" *ngIf="ticket.description">
-      {{ ticket.description }}
+    <p class="ticket-detail__message" *ngIf="ticket!.description">
+      {{ ticket!.description }}
     </p>
 
     <textarea
@@ -55,7 +56,7 @@
 
     <a
       class="ticket-detail__send-btn"
-      [href]="'mailto:' + ticket.email + '?subject=Re: ' + ticket.subject + '&body=' + replyText"
+      [href]="'mailto:' + ticket!.email + '?subject=Re: ' + ticket!.subject + '&body=' + replyText"
       [class.disabled]="!replyText.trim()"
       (click)="onSendReply()"
     >

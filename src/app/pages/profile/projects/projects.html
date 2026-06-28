@@ -46,7 +46,9 @@
     <div class="project-form__field">
       <label class="project-form__label">Title *</label>
       <input class="project-form__input" type="text"
-        [(ngModel)]="formData.title" placeholder="My Awesome Project" />
+        [(ngModel)]="formData.title" placeholder="My Awesome Project"
+        [class.input--error]="errors.title" />
+      <span class="project-form__error" *ngIf="errors.title">{{ errors.title }}</span>
     </div>
 
     <div class="project-form__field">
@@ -59,14 +61,16 @@
     <div class="project-form__field">
       <label class="project-form__label">GitHub URL</label>
       <input class="project-form__input" type="text"
-        [(ngModel)]="formData.githubUrl" placeholder="https://github.com/..." />
+        [(ngModel)]="formData.githubUrl" placeholder="https://github.com/..."
+        [class.input--error]="errors.githubUrl" />
+      <span class="project-form__error" *ngIf="errors.githubUrl">{{ errors.githubUrl }}</span>
     </div>
 
     <div class="project-form__buttons">
       <button class="project-form__cancel" (click)="onCancel()">Cancel</button>
       <button class="project-form__save"
         (click)="onSave()"
-        [disabled]="isSaving || !formData.title">
+        [disabled]="isSaving">
         {{ isSaving ? 'Saving...' : 'Save' }}
       </button>
     </div>

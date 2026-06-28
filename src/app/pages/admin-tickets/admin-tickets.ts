@@ -16,10 +16,19 @@ export class AdminTickets {
   @ViewChild(TicketsList) ticketsListComponent!: TicketsList;
 
   selectedTicket: AdminTicket | null = null;
+  activeFilter: string = 'All';
 
-  onTicketSelect(ticket: AdminTicket) {
+  onFilterChange(filter: string) {
+  this.activeFilter = filter;
+  this.selectedTicket = null; 
+}
+
+onTicketSelect(ticket: AdminTicket) {
+ 
+  if (this.activeFilter === 'All' || ticket.status === this.activeFilter) {
     this.selectedTicket = ticket;
   }
+}
 
   onStatusUpdated() {
     if (this.ticketsListComponent) {

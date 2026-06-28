@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@ang
 import { CommonModule } from '@angular/common';
 import { AdminTicketsService, AdminTicket } from '../../../services/admin-tickets';
 
-
 @Component({
   selector: 'app-tickets-list',
   standalone: true,
@@ -12,6 +11,7 @@ import { AdminTicketsService, AdminTicket } from '../../../services/admin-ticket
 })
 export class TicketsList implements OnInit {
   @Output() ticketSelect = new EventEmitter<AdminTicket>();
+  @Output() filterChange = new EventEmitter<string>();
 
   tickets: AdminTicket[] = [];
   filteredTickets: AdminTicket[] = [];
@@ -62,6 +62,8 @@ export class TicketsList implements OnInit {
   setFilter(filter: string) {
     this.activeFilter = filter;
     this.applyFilter();
+    this.selectedTicketId = null;
+    this.filterChange.emit(filter);
   }
 
   selectTicket(ticket: AdminTicket) {
@@ -70,8 +72,8 @@ export class TicketsList implements OnInit {
   }
 
   statusClass(status: string): string {
-  return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
-}
+    return 'status-badge status-badge--' + status.toLowerCase().replace(' ', '-');
+  }
 
   formatDate(dateStr: string): string {
     if (!dateStr) return '';
