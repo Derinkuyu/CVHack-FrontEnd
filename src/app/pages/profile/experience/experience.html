@@ -20,8 +20,7 @@
         <h4 class="experience-item__title">{{ item.jobTitle }}</h4>
        <p class="experience-item__meta">
   {{ item.companyName }} · 
-  {{ item.startDate | date:'yyyy' }} — 
-  {{ item.endDate ? (item.endDate | date:'yyyy') : 'Present' }}
+  {{ item.startDate | date:'MMM yyyy' }} — {{ item.endDate ? (item.endDate | date:'MMM yyyy') : 'Present' }}
 </p>
       </div>
       <div class="experience-item__actions">
@@ -51,21 +50,23 @@
         <span class="experience-form__error" *ngIf="errors.companyName">{{ errors.companyName }}</span>
       </div>
 
-      <div class="experience-form__field">
-        <label class="experience-form__label">Start Year</label>
-        <input class="experience-form__input" type="number"
-          [(ngModel)]="formData.startDate" placeholder="2020"
-          min="1950" max="2100" />
-        <span class="experience-form__error" *ngIf="errors.startDate">{{ errors.startDate }}</span>
-      </div>
+    <!-- Start Date -->
+<div class="experience-form__field">
+  <label class="experience-form__label">Start Date *</label>
+  <input class="experience-form__input" type="date"
+    [(ngModel)]="formData.startDate"
+    [class.input--error]="errors.startDate" />
+  <span class="experience-form__error" *ngIf="errors.startDate">{{ errors.startDate }}</span>
+</div>
 
-      <div class="experience-form__field">
-        <label class="experience-form__label">End Year</label>
-        <input class="experience-form__input" type="number"
-          [(ngModel)]="formData.endDate" placeholder="2023" 
-          min="1950" max="2100" />
-        <span class="experience-form__error" *ngIf="errors.endDate">{{ errors.endDate }}</span>
-      </div>
+<!-- End Date -->
+<div class="experience-form__field">
+  <label class="experience-form__label">End Date</label>
+  <input class="experience-form__input" type="date"
+    [(ngModel)]="formData.endDate"
+    [class.input--error]="errors.endDate" />
+  <span class="experience-form__error" *ngIf="errors.endDate">{{ errors.endDate }}</span>
+</div>
     </div>
 
     <div class="experience-form__buttons">

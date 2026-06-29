@@ -66,11 +66,15 @@ export class Experience implements OnInit {
   }
 
   openEditForm(item: ExperienceItem) {
-    this.editingId = item.id || null;
-    this.errors = {};
-    this.formData = { ...item };
-    this.showForm = true;
-  }
+  this.editingId = item.id || null;
+  this.errors = {};
+  this.formData = {
+    ...item,
+    startDate: item.startDate ? new Date(item.startDate).toISOString().split('T')[0] : '',
+    endDate: item.endDate ? new Date(item.endDate).toISOString().split('T')[0] : null,
+  };
+  this.showForm = true;
+}
 
   onCancel() {
     this.showForm = false;
@@ -79,77 +83,76 @@ export class Experience implements OnInit {
   }
 
   validateForm(): boolean {
-  this.errors = {};
+    this.errors = {};
 
-  if (!this.formData.jobTitle?.trim()) {
-    this.errors.jobTitle = 'Job title is required';
-  }
-
-  if (!this.formData.companyName?.trim()) {
-    this.errors.companyName = 'Company name is required';
-  }
-
- 
-  if (!this.formData.startDate) {
-    this.errors.startDate = 'Start year is required';
-  } else {
-    const year = Number(this.formData.startDate);
-    if (isNaN(year) || year < 1950 || year > 2100) {
-      this.errors.startDate = 'Please enter a valid year (e.g. 2020)';
+    if (!this.formData.jobTitle?.trim()) {
+      this.errors.jobTitle = 'Job title is required';
     }
-  }
 
-  if (this.formData.endDate) {
-    const year = Number(this.formData.endDate);
-    if (isNaN(year) || year < 1950 || year > 2100) {
-      this.errors.endDate = 'Please enter a valid year (e.g. 2023)';
+    if (!this.formData.companyName?.trim()) {
+      this.errors.companyName = 'Company name is required';
     }
-  }
 
-  return Object.keys(this.errors).length === 0;
-}
+    if (!this.formData.startDate) {
+      this.errors.startDate = 'Start date is required';
+    } else {
+      const date = new Date(this.formData.startDate);
+      if (isNaN(date.getTime())) {
+        this.errors.startDate = 'Please enter a valid date';
+      }
+    }
+
+    if (this.formData.endDate) {
+      const date = new Date(this.formData.endDate);
+      if (isNaN(date.getTime())) {
+        this.errors.endDate = 'Please enter a valid date';
+      }
+    }
+
+    return Object.keys(this.errors).length === 0;
+  }
 
   onSave() {
-  if (!this.validateForm()) return;
-  this.isSaving = true;
+    if (!this.validateForm()) return;
+    this.isSaving = true;
 
-  const payload = {
-    companyName: this.formData.companyName,
-    jobTitle: this.formData.jobTitle,
-    startDate: this.formData.startDate ? `${this.formData.startDate}-01-01` : null,
-    endDate: this.formData.endDate ? `${this.formData.endDate}-01-01` : null,
-  };
+    const payload = {
+      companyName: this.formData.companyName,
+      jobTitle: this.formData.jobTitle,
+      startDate: this.formData.startDate || null,
+      endDate: this.formData.endDate || null,
+    };
 
-  if (this.editingId) {
-    this.experienceService.updateExperience(this.editingId, payload as any).subscribe({
-      next: () => {
-        this.loadExperience();
-        this.showForm = false;
-        this.isSaving = false;
-        this.errors = {};
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error:', err);
-        this.isSaving = false;
-      }
-    });
-  } else {
-    this.experienceService.addExperience(payload as any).subscribe({
-      next: () => {
-        this.loadExperience();
-        this.showForm = false;
-        this.isSaving = false;
-        this.errors = {};
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error:', err);
-        this.isSaving = false;
-      }
-    });
+    if (this.editingId) {
+      this.experienceService.updateExperience(this.editingId, payload as any).subscribe({
+        next: () => {
+          this.loadExperience();
+          this.showForm = false;
+          this.isSaving = false;
+          this.errors = {};
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          this.isSaving = false;
+        }
+      });
+    } else {
+      this.experienceService.addExperience(payload as any).subscribe({
+        next: () => {
+          this.loadExperience();
+          this.showForm = false;
+          this.isSaving = false;
+          this.errors = {};
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          this.isSaving = false;
+        }
+      });
+    }
   }
-}
 
   deleteExperience(id: string) {
     this.experienceService.deleteExperience(id).subscribe({

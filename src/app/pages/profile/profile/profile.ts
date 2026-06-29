@@ -68,7 +68,7 @@ loadProfile() {
         const data = res.data || res;
         this.rawProfileData = data;
         this.jobTitle = data?.jobTitle || data?.headline || '';
-        this.location = data?.city || data?.country || '';
+        this.location = [data?.city, data?.country].filter(x => x).join(', ');
         this.phone = data?.phoneNumber || '';
       } catch(e) {
         console.error('Error parsing data:', e);

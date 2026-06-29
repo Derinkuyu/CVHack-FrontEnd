@@ -132,6 +132,7 @@
 
 .info-card__field--full {
   grid-column: 1 / -1;
+  margin-top: 20px;
 }
 
 .info-card__success {
