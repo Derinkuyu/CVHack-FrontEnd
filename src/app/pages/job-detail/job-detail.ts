@@ -1,5 +1,8 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { Navbar } from '../../components/navbar/navbar';
 import { JobHeader, JobHeaderData } from './components/job-header/job-header';
 import { JobAbout, JobAboutData } from './components/job-about/job-about';
@@ -18,12 +21,15 @@ import { Job } from '../../models/job.model';
 export class JobDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private jobsService = inject(JobsService);
+  private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
+
   loading = true;
   error = '';
   job: Job | null = null;
   header!: JobHeaderData;
   about!: JobAboutData;
+
   aiMatch: AiMatchData = {
     score: 92,
     summary: "Your profile aligns well with this role's core requirements.",
@@ -37,6 +43,7 @@ export class JobDetail implements OnInit {
     ],
     gapSkills: ['GraphQL', 'Rust / WASM'],
   };
+
   companyBriefing: CompanyBriefingData = {
     staffRange: '120–250',
     founded: '2016',
@@ -47,6 +54,7 @@ export class JobDetail implements OnInit {
       'Remote-first across Egypt & MENA time zones',
     ],
   };
+
   async ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.loading = true;
@@ -54,12 +62,12 @@ export class JobDetail implements OnInit {
       this.job = await this.jobsService.getById(id);
       if (this.job) {
         this.header = {
-          companyInitials: this.job.company.substring(0, 2).toUpperCase(), // ✅
+          companyInitials: this.job.company.substring(0, 2).toUpperCase(),
           title: this.job.title,
-          companyName: this.job.company, // ✅
-          location: this.job.location, // ✅ موجودة في الـ model
-          postedAt: this.job.postedAgo, // ✅
-          tags: this.job.tags, // ✅ موجودة في الـ model
+          companyName: this.job.company,
+          location: this.job.location,
+          postedAt: this.job.postedAgo,
+          tags: this.job.tags,
           salary: `EGP ${(this.job.salaryMin / 1000).toFixed(0)}k – ${(this.job.salaryMax / 1000).toFixed(0)}k/mo`,
         };
         this.about = {
@@ -77,6 +85,22 @@ export class JobDetail implements OnInit {
             'Comfortable in a fast-moving, remote environment',
           ],
         };
+
+        // جيبي الـ company briefing من الـ API
+        try {
+          const briefingRes = await firstValueFrom(
+            this.http.get<any>(`${environment.apiUrl}/jobs/${id}/briefing`)
+          );
+          const b = briefingRes.data;
+          if (b) {
+            this.companyBriefing = {
+              staffRange: `${b.staffMin ?? ''}–${b.staffMax ?? ''}`,
+              founded: b.founded?.toString() ?? '',
+              facts: b.content ?? [],
+            };
+          }
+        } catch {}
+
       } else {
         this.error = 'Job not found.';
       }
@@ -88,6 +112,7 @@ export class JobDetail implements OnInit {
       this.cdr.detectChanges();
     }
   }
+
   getPostedAt(dateStr: string): string {
     const diff = Date.now() - new Date(dateStr).getTime();
     const hours = Math.floor(diff / 3600000);
