@@ -7,7 +7,7 @@ import { FilterIcon } from '../../assets/filter-icon/filter-icon';
 
 @Component({
   selector: 'app-job-cards-container',
-  imports: [JobCard, FormsModule,FilterIcon],
+  imports: [JobCard, FormsModule, FilterIcon],
   templateUrl: './job-cards-container.html',
   styleUrl: './job-cards-container.css',
 })
@@ -18,8 +18,8 @@ export class JobCardsContainer implements OnChanges {
   @Input() isLoading = false;
   @Output() openFilters = new EventEmitter<void>();
 
-  sortOptions = ['Best match', 'Most recent', 'Highest salary'];
-  selectedSort = 'Best match';
+  sortOptions = ['Most recent', 'Highest salary'];
+  selectedSort = 'Most recent';
 
 
   readonly pageSize = 10;
