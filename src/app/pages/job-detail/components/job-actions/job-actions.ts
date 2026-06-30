@@ -17,7 +17,12 @@ export class JobActions {
     this.router.navigate(['/mock-interview']);
   }
 
+  onDownloadCV() {
+  console.log('Downloading CV...');
+}
+
   applyNow() {
   window.open(`/jobs/${this.jobId}`, '_blank');
 }
+
 }

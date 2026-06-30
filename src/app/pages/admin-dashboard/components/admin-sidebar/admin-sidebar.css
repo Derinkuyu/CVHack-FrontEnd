@@ -56,3 +56,52 @@
   flex-direction: column;
   gap: 4px;
 }
+
+/* Responsive: على الموبايل الـ sidebar يبقى شريط مرتب فوق المحتوى */
+@media (max-width: 900px) {
+  .sidebar {
+    min-height: auto;
+    height: auto;
+    position: relative;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sidebar-logo {
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 16px 20px;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  .sidebar-bottom {
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-top: none;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+
+  .nav-item {
+    width: auto;
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar-nav,
+  .sidebar-bottom {
+    justify-content: center;
+  }
+
+  .nav-item {
+    font-size: .8rem;
+    padding: 8px 10px;
+  }
+}

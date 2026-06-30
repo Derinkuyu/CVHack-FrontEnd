@@ -8,6 +8,15 @@
   </button>
 
   <button
+    (click)="onDownloadCV()"
+    class="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
+    style="background: var(--surface); color: var(--text); font-family: var(--font-display); box-shadow: var(--shadow); border: 1px solid var(--border);">
+    <span>⬇</span>
+    <span>Download CV</span>
+  </button>
+
+  
+  <button
     (click)="applyNow()"
     class="w-full py-3 rounded-xl text-sm font-bold border-0"
     style="background: var(--teal); color: var(--white); font-family: var(--font-display); box-shadow: var(--shadow);">

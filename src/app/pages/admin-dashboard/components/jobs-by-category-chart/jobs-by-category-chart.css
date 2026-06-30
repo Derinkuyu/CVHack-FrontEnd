@@ -64,3 +64,34 @@
   margin-top: 8px;
   text-align: center;
 }
+
+/* Responsive: تصغير المسافات والخط عشان كل الأعمدة تبان في عرض الشاشة */
+@media (max-width: 900px) {
+  .chart-card {
+    padding: 16px;
+  }
+
+  .bars-row {
+    gap: 4px;
+    height: 140px;
+  }
+
+  .bar-label {
+    font-size: .6rem;
+    margin-top: 4px;
+  }
+
+  .bar-val {
+    font-size: .65rem;
+    }
+}
+
+@media (max-width: 480px) {
+  .bars-row {
+    height: 110px;
+  }
+
+  .bar-label {
+    font-size: .55rem;
+  }
+}

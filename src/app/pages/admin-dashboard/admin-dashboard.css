@@ -55,3 +55,34 @@
   gap: 24px;
   align-items: stretch;
 }
+
+/* Responsive: tablet و موبايل */
+@media (max-width: 900px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-main {
+    padding: 20px;
+  }
+
+  .charts-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-main {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .dash-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dash-title {
+    font-size: 1.4rem;
+  }
+}

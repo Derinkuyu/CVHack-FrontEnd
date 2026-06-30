@@ -6,11 +6,17 @@ export interface SkillBreakdownItem {
   status: 'good' | 'gap';
 }
 
+export interface GapSkillDetail {
+  name: string;
+  whyItMatters: string;
+  suggestedStep: string;
+}
+
 export interface AiMatchData {
   score: number;
   summary: string;
   skills: SkillBreakdownItem[];
-  gapSkills: string[];
+  gapSkills: GapSkillDetail[];
 }
 
 @Component({
@@ -20,14 +26,16 @@ export interface AiMatchData {
   styleUrl: './ai-match-card.css',
 })
 export class AiMatchCard {
-  @Input() data!: AiMatchData;
+  @Input() data: AiMatchData | null = null;
+  @Input() loading = false;
+  @Input() error = '';
 
-  // Circle math for the score ring
   get circumference(): number {
     return 2 * Math.PI * 36;
   }
 
   get dashOffset(): number {
-    return this.circumference * (1 - this.data.score / 100);
+    const score = this.data?.score ?? 0;
+    return this.circumference * (1 - score / 100);
   }
 }

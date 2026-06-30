@@ -1,28 +1,47 @@
 <app-navbar></app-navbar>
 
-@if (loading) {
-  <div class="loading-state">Loading job details...</div>
-}
-
 @if (error) {
   <div class="error-state">{{ error }}</div>
 }
 
-@if (job) {
+@if (!error) {
   <div class="max-w-6xl mx-auto px-6 py-6">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
-      <!-- Main column -->
+      <!-- Main column: job header + about -->
       <div class="lg:col-span-2 flex flex-col gap-6">
-        <app-job-header [data]="header"></app-job-header>
-        <app-job-about [data]="about"></app-job-about>
+        @if (job) {
+          <app-job-header [data]="header"></app-job-header>
+          <app-job-about [data]="about"></app-job-about>
+        } @else {
+          <!-- skeleton لحد ما الـ job details ترجع -->
+          <div class="rounded-2xl p-6 border animate-pulse" style="background: var(--surface); border-color: var(--border);">
+            <div class="h-5 w-1/2 rounded mb-3" style="background: var(--border2);"></div>
+            <div class="h-3 w-1/3 rounded mb-2" style="background: var(--border2);"></div>
+            <div class="h-3 w-1/4 rounded" style="background: var(--border2);"></div>
+          </div>
+          <div class="rounded-2xl p-6 border animate-pulse" style="background: var(--surface); border-color: var(--border);">
+            <div class="h-3 w-full rounded mb-2" style="background: var(--border2);"></div>
+            <div class="h-3 w-5/6 rounded mb-2" style="background: var(--border2);"></div>
+            <div class="h-3 w-2/3 rounded" style="background: var(--border2);"></div>
+          </div>
+        }
       </div>
 
-      <!-- Side column -->
+      <!-- Side column: كل كارد بيظهر لوحده مستقل عن التاني -->
       <div class="flex flex-col gap-6">
-        <app-ai-match-card [data]="aiMatch"></app-ai-match-card>
-        <app-company-briefing [data]="companyBriefing"></app-company-briefing>
-        <app-job-actions [jobId]="job.id" [jobUrl]="job.jobUrl"></app-job-actions>
+        <app-ai-match-card [data]="aiMatch" [loading]="aiMatchLoading" [error]="aiMatchError"></app-ai-match-card>
+
+        @if (job) {
+          <app-company-briefing [data]="companyBriefing"></app-company-briefing>
+        } @else {
+          <div class="rounded-2xl p-6 border animate-pulse" style="background: var(--surface); border-color: var(--border);">
+            <div class="h-3 w-1/2 rounded mb-2" style="background: var(--border2);"></div>
+            <div class="h-3 w-full rounded" style="background: var(--border2);"></div>
+          </div>
+        }
+
+        <app-job-actions [jobId]="jobId" [jobUrl]="job?.jobUrl ?? ''"></app-job-actions>
       </div>
 
     </div>

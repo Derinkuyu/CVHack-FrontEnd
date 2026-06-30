@@ -27,22 +27,15 @@ export class JobDetail implements OnInit {
   loading = true;
   error = '';
   job: Job | null = null;
+  jobId = 0;
   header!: JobHeaderData;
   about!: JobAboutData;
 
-  aiMatch: AiMatchData = {
-    score: 92,
-    summary: "Your profile aligns well with this role's core requirements.",
-    skills: [
-      { name: 'React', percent: 95, status: 'good' },
-      { name: 'TypeScript', percent: 88, status: 'good' },
-      { name: 'CSS Architecture', percent: 82, status: 'good' },
-      { name: 'Testing', percent: 78, status: 'good' },
-      { name: 'GraphQL', percent: 34, status: 'gap' },
-      { name: 'Rust / WASM', percent: 22, status: 'gap' },
-    ],
-    gapSkills: ['GraphQL', 'Rust / WASM'],
-  };
+  // الـ AI match analysis بياخد وقت لإنه AI agent، فبنخليه له loading منفصل
+  // عشان متستناش كل الصفحة لحد ما يرجع
+  aiMatch: AiMatchData | null = null;
+  aiMatchLoading = true;
+  aiMatchError = '';
 
   companyBriefing: CompanyBriefingData = {
     staffRange: '120–250',
@@ -57,9 +50,15 @@ export class JobDetail implements OnInit {
 
   async ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.jobId = id;
     this.loading = true;
+
+    // مستقل عن باقي الصفحة، عشان الـ AI agent بياخد وقت ومتستنيش عليه كل الصفحة
+    this.fetchSkillAnalysis(id);
+
     try {
       this.job = await this.jobsService.getById(id);
+      console.log('Job data:', this.job);
       if (this.job) {
         this.header = {
           companyInitials: this.job.company.substring(0, 2).toUpperCase(),
@@ -86,12 +85,12 @@ export class JobDetail implements OnInit {
           ],
         };
 
-        // جيبي الـ company briefing من الـ API
         try {
           const briefingRes = await firstValueFrom(
             this.http.get<any>(`${environment.apiUrl}/jobs/${id}/briefing`)
           );
           const b = briefingRes.data;
+          console.log('Company briefing data:', b);
           if (b) {
             this.companyBriefing = {
               staffRange: `${b.staffMin ?? ''}–${b.staffMax ?? ''}`,
@@ -119,5 +118,42 @@ export class JobDetail implements OnInit {
     if (hours < 24) return `${hours}h ago`;
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
+  }
+
+  private async fetchSkillAnalysis(id: number) {
+    this.aiMatchLoading = true;
+    this.aiMatchError = '';
+    try {
+      const res = await firstValueFrom(
+        this.http.get<any>(`${environment.apiUrl}/jobs/${id}/skill-analysis`)
+      );
+      const d = res?.data;
+      console.log('Skill analysis data:', d);
+      if (d) {
+        const items = d.items ?? [];
+        this.aiMatch = {
+          score: d.overallScore,
+          summary: d.overallSummary,
+          skills: items.map((i: any) => ({
+            name: i.skillName,
+            percent: i.matchPercent,
+            status: i.matchPercent < 50 ? 'gap' : 'good',
+          })),
+          gapSkills: items
+            .filter((i: any) => i.matchPercent < 50)
+            .map((i: any) => ({
+              name: i.skillName,
+              whyItMatters: i.whyItMatters,
+              suggestedStep: i.suggestedStep,
+            })),
+        };
+      }
+    } catch (err) {
+      console.error('Skill analysis error:', err);
+      this.aiMatchError = 'Could not load AI match analysis.';
+    } finally {
+      this.aiMatchLoading = false;
+      this.cdr.detectChanges();
+    }
   }
 }
