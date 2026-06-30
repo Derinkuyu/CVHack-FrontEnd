@@ -163,3 +163,20 @@
   color: var(--red);
   margin-top: 2px;
 }
+@media (max-width: 768px) {
+  .info-card__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-card__value {
+    word-break: break-all;
+  }
+
+  .info-card {
+    padding: 16px;
+  }
+
+  .info-card__field--full {
+    margin-top: 0;
+  }
+}

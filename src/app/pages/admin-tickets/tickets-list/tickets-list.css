@@ -1,3 +1,18 @@
+@media (max-width: 768px) {
+  .tickets-filters {
+    flex-wrap: wrap;
+  }
+
+  .tickets-table thead th,
+  .tickets-table td {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .tickets-table__subject {
+    font-size: 13px;
+  }
+}
 .tickets-page-header {
   margin-bottom: 16px;
 }

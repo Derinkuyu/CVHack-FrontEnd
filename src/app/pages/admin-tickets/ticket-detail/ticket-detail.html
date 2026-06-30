@@ -32,6 +32,7 @@
         <span class="ticket-detail__label">Opened</span>
         <span class="ticket-detail__value">{{ ticket!.createdAt | date:'MMM d' }}</span>
       </div>
+     
       <div class="ticket-detail__field">
         <span class="ticket-detail__label">Update Status</span>
         <select class="ticket-detail__status-select" [(ngModel)]="selectedStatus" (change)="updateStatus()">
@@ -40,13 +41,17 @@
           <option value="Closed">Closed</option>
         </select>
       </div>
+       <div class="ticket-detail__field">
+        <span class="ticket-detail__label">Ticket Description</span>
+        <p class="ticket-detail__message" *ngIf="ticket!.description">
+      {{ ticket!.description }}
+    </p>
+      </div>
     </div>
   </div>
 
   <div class="ticket-detail__message-card">
-    <p class="ticket-detail__message" *ngIf="ticket!.description">
-      {{ ticket!.description }}
-    </p>
+    
 
     <textarea
       class="ticket-detail__reply-input"

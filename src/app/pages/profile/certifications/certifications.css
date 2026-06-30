@@ -209,3 +209,16 @@
   color: var(--red);
   margin-top: 2px;
 }
+@media (max-width: 768px) {
+  .cert-card {
+    padding: 16px;
+  }
+
+  .cert-form {
+    padding: 16px;
+  }
+
+  .cert-form__grid {
+    grid-template-columns: 1fr;
+  }
+}
