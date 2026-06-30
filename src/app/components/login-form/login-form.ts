@@ -77,7 +77,7 @@ export class LoginForm {
       case 401:
         return 'Incorrect email or password. Please try again.';
       case 403:
-        return 'Your account does not have permission to log in.';
+        return backendMessage || 'Your account has been suspended. Please contact support.';
       case 500:
         return 'Something went wrong on our end. Please try again later.';
       default:

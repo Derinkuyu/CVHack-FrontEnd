@@ -25,9 +25,11 @@
         <span class="info-card__value">{{ phone || '—' }}</span>
       </div>
       <div class="info-card__field">
-        <span class="info-card__label">Location</span>
-        <span class="info-card__value">{{ location || '—' }}</span>
-      </div>
+  <span class="info-card__label">Location</span>
+  <span class="info-card__value">
+    {{ [location, country].filter(x => x).join(', ') || '—' }}
+  </span>
+</div>
       <div class="info-card__field">
         <span class="info-card__label">Headline</span>
         <span class="info-card__value">{{ headline || '—' }}</span>
@@ -75,9 +77,16 @@
   <span class="info-card__error-msg" *ngIf="errors.phone">{{ errors.phone }}</span>
 </div>
       <div class="info-card__field">
-        <label class="info-card__label">City</label>
-        <input class="info-card__input" type="text" [(ngModel)]="editData.city" placeholder="Cairo, Egypt" />
-      </div>
+  <label class="info-card__label">City</label>
+  <input class="info-card__input" type="text"
+    [(ngModel)]="editData.city" placeholder="Cairo" />
+</div>
+
+<div class="info-card__field">
+  <label class="info-card__label">Country</label>
+  <input class="info-card__input" type="text"
+    [(ngModel)]="editData.country" placeholder="Egypt" />
+</div>
       <div class="info-card__field">
         <label class="info-card__label">Headline</label>
         <input class="info-card__input" type="text" [(ngModel)]="editData.headline" placeholder="Senior Developer..." />

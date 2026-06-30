@@ -198,3 +198,12 @@
   border-color: var(--red);
   box-shadow: 0 0 0 3px var(--redSoft);
 }
+@media (max-width: 768px) {
+  .projects-card {
+    padding: 16px;
+  }
+
+  .project-form {
+    padding: 16px;
+  }
+}

@@ -15,8 +15,8 @@ export class ProfileHeader {
   @Input() location: string = '';
   @Input() initials: string = '';
 
-  onDownloadCV() {
-    console.log('Downloading CV...');
+  // onDownloadCV() {
+  //   console.log('Downloading CV...');
     
-  }
+  // }
 }

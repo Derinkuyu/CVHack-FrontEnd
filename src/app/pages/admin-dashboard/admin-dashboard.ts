@@ -2,7 +2,7 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AdminSidebar } from './components/admin-sidebar/admin-sidebar';
+import { AdminSidebar } from '../../components/admin-sidebar/admin-sidebar';
 import { StatsCards, StatCard } from './components/stats-cards/stats-cards';
 import { JobsByCategoryChart, CategoryBar } from './components/jobs-by-category-chart/jobs-by-category-chart';
 // اتعمله كومنت بناءً على طلب المستخدمة، ممكن نرجعهم تاني لو احتجناهم

@@ -208,3 +208,16 @@
   color: var(--red);
   margin-top: 2px;
 }
+@media (max-width: 768px) {
+  .experience-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-card {
+    padding: 16px;
+  }
+
+  .experience-form {
+    padding: 16px;
+  }
+}

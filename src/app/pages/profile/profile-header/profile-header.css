@@ -53,7 +53,7 @@
   gap: 4px;
 }
 
-.profile-header__download-btn {
+/* .profile-header__download-btn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -71,4 +71,4 @@
 
 .profile-header__download-btn:hover {
   background-color: var(--tealHover);
-}
+} */

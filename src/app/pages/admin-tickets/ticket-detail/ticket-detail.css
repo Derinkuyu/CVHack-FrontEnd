@@ -1,3 +1,17 @@
+@media (max-width: 768px) {
+  .ticket-detail__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-detail__value {
+    word-break: break-all;
+  }
+
+  .ticket-detail__card,
+  .ticket-detail__message-card {
+    padding: 16px;
+  }
+}
 .ticket-detail {
   display: flex;
   flex-direction: column;

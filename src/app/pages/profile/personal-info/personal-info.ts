@@ -18,6 +18,7 @@ export class PersonalInfo implements OnChanges {
   phone = '';
   location = '';
   headline = '';
+  country = '';
   summary = '';
   linkedInUrl = '';
   gitHubUrl = '';
@@ -30,14 +31,15 @@ export class PersonalInfo implements OnChanges {
   errors: any = {};
 
   editData = {
-    phone: '',
-    city: '',
-    headline: '',
-    summary: '',
-    linkedInUrl: '',
-    gitHubUrl: '',
-    portfolioUrl: ''
-  };
+  phone: '',
+  city: '',
+  country: '',
+  headline: '',
+  summary: '',
+  linkedInUrl: '',
+  gitHubUrl: '',
+  portfolioUrl: ''
+};
 
   constructor(
     private profileService: ProfileService,
@@ -48,6 +50,7 @@ export class PersonalInfo implements OnChanges {
     if (changes['profileData'] && this.profileData) {
       this.phone = this.profileData.phoneNumber || '';
       this.location = this.profileData.city || '';
+      this.country = this.profileData.country || '';
       this.headline = this.profileData.headline || '';
       this.summary = this.profileData.summary || '';
       this.linkedInUrl = this.profileData.linkedInUrl || '';
@@ -83,6 +86,7 @@ export class PersonalInfo implements OnChanges {
     this.errors = {};
     this.editData = {
       phone: this.phone,
+      country: this.country,
       city: this.location,
       headline: this.headline,
       summary: this.summary,
@@ -109,6 +113,7 @@ export class PersonalInfo implements OnChanges {
     this.profileService.updateProfile({
       phoneNumber: this.editData.phone,
       city: this.editData.city,
+      country: this.editData.country,
       headline: this.editData.headline,
       summary: this.editData.summary,
       linkedInUrl: this.editData.linkedInUrl,
@@ -119,6 +124,7 @@ export class PersonalInfo implements OnChanges {
         const data = res?.data;
         this.phone = data?.phoneNumber || this.editData.phone || '';
         this.location = data?.city || this.editData.city || '';
+        this.country = data?.country || this.editData.country || '';
         this.headline = data?.headline || this.editData.headline || '';
         this.summary = data?.summary || this.editData.summary || '';
         this.linkedInUrl = data?.linkedInUrl || this.editData.linkedInUrl || '';
