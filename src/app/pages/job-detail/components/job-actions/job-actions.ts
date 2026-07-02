@@ -14,8 +14,8 @@ export class JobActions {
   constructor(private router: Router) {}
 
   startMockInterview() {
-    this.router.navigate(['/mock-interview']);
-  }
+  this.router.navigate(['/mock-interview', this.jobId]);
+}
 
   onDownloadCV() {
   console.log('Downloading CV...');

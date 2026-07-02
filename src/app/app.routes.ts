@@ -30,11 +30,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./pages/job-detail/job-detail').then((c) => c.JobDetail),
   },
-  {
-    path: 'mock-interview',
-    canActivate: [authGuard],
-    loadComponent: () => import('./pages/mock-interview/mock-interview').then((c) => c.MockInterview),
-  },
+ {
+  path: 'mock-interview/:id',
+  canActivate: [authGuard],
+  loadComponent: () => import('./pages/mock-interview/mock-interview').then((c) => c.MockInterview),
+},
   {
     path: 'profile',
     canActivate: [jobSeekerGuard],
